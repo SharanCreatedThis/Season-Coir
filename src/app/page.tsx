@@ -456,8 +456,9 @@ export default function Home() {
                   initial={{ opacity: 0, y: 24 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.96 }}
-                  transition={{ duration: 0.3, delay: i * 0.04 }}
-                  className="group relative rounded-2xl overflow-hidden cursor-default bg-white border border-forest-dark/[0.07] hover:shadow-[0_8px_40px_rgba(15,38,28,0.12)] hover:-translate-y-1 transition-all duration-400"
+                  transition={{ duration: 0.3, delay: i * 0.04, ease: "easeOut" }}
+                  className="group relative rounded-2xl overflow-hidden cursor-default bg-white border border-forest-dark/[0.07] hover:shadow-[0_8px_40px_rgba(15,38,28,0.12)] transition-shadow duration-300"
+                  whileHover={{ scale: 1.02 }}
                 >
                   {/* Image */}
                   <div className="relative h-52 overflow-hidden bg-coconut-cream">
