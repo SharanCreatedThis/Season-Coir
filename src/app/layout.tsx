@@ -17,6 +17,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://seasoncoir.vercel.app"),
   title: "Season Coir — Premium Coir Products from Kerala since 1980",
   description:
     "Season Coir Exports — B2B manufacturer and exporter of eco-friendly, GI-tagged Alleppey coir mats. Supplying UAE, Europe and beyond since 1980.",

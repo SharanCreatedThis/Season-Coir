@@ -1,3 +1,7 @@
+/**
+ * Site footer with company info, navigation links, and contact details.
+ * Displays export markets, social links, and legal copy.
+ */
 "use client";
 
 import Link from "next/link";

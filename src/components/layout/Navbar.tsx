@@ -1,3 +1,7 @@
+/**
+ * Sticky navigation bar with smooth scroll links and mobile hamburger menu.
+ * Brand colors: Forest Green (#1B4332) + Coir Gold (#8B6914).
+ */
 "use client";
 
 import Link from "next/link";
@@ -49,9 +53,12 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
-    setOpenDropdown(null);
-    setMobileOpen(false);
-    setMobileExpanded(null);
+    const id = setTimeout(() => {
+      setOpenDropdown(null);
+      setMobileOpen(false);
+      setMobileExpanded(null);
+    }, 0);
+    return () => clearTimeout(id);
   }, [pathname]);
 
   const solid = scrolled || pathname !== "/";

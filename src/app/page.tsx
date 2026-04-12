@@ -1,3 +1,9 @@
+/**
+ * Season Coir — Homepage
+ * Premium eco-luxury marketing website with scrollytelling animations,
+ * 3D interactive coconut scene, and product catalogue.
+ * @see https://seasoncoir.vercel.app
+ */
 "use client";
 
 import Image from "next/image";
@@ -15,31 +21,6 @@ import {
 } from "@/data";
 import type { Category } from "@/data";
 import JourneySection from "@/components/JourneySection";
-
-// ─── Stable particles (no hydration mismatch) ─────────────────────────────────
-const PARTICLES = [
-  { x: 8, y: 18, size: 6, delay: 0.0, dur: 4.4 },
-  { x: 22, y: 72, size: 4, delay: 1.2, dur: 5.1 },
-  { x: 42, y: 35, size: 8, delay: 0.6, dur: 6.0 },
-  { x: 61, y: 82, size: 5, delay: 2.0, dur: 4.8 },
-  { x: 75, y: 22, size: 7, delay: 0.3, dur: 5.5 },
-  { x: 88, y: 60, size: 4, delay: 1.7, dur: 4.2 },
-  { x: 55, y: 55, size: 10, delay: 0.9, dur: 6.6 },
-  { x: 33, y: 88, size: 5, delay: 2.4, dur: 5.8 },
-  { x: 12, y: 45, size: 3, delay: 1.5, dur: 3.9 },
-  { x: 95, y: 15, size: 6, delay: 0.1, dur: 4.7 },
-];
-
-function Particle({ x, y, size, delay, dur }: { x: number; y: number; size: number; delay: number; dur: number }) {
-  return (
-    <motion.div
-      className="absolute rounded-full bg-kerala-gold/20 pointer-events-none"
-      style={{ left: `${x}%`, top: `${y}%`, width: size, height: size }}
-      animate={{ y: [0, -18, 0], opacity: [0.15, 0.45, 0.15] }}
-      transition={{ repeat: Infinity, duration: dur, delay, ease: "easeInOut" }}
-    />
-  );
-}
 
 // ─── Count-up ─────────────────────────────────────────────────────────────────
 function CountUp({ target, duration = 1800 }: { target: string; duration?: number }) {
@@ -59,7 +40,7 @@ function CountUp({ target, duration = 1800 }: { target: string; duration?: numbe
     if (!started) return;
     const numeric = parseFloat(target.replace(/[^0-9.]/g, ""));
     const sfx = target.replace(/[0-9.]/g, "");
-    if (isNaN(numeric)) { setDisplay(target); return; }
+    if (isNaN(numeric)) return; // display already initialized to target
     const startTime = Date.now();
     let raf: number;
     const tick = () => {
@@ -97,7 +78,6 @@ export default function Home() {
   const { scrollY } = useScroll();
   // Parallax layers — each moves at a different rate
   const bgY = useTransform(scrollY, [0, 900], [0, 260]);
-  const vignetteY = useTransform(scrollY, [0, 900], [0, 80]);
   // Content scroll-linked: fades + lifts as user scrolls
   const heroOpacity = useTransform(scrollY, [0, 500], [1, 0]);
   const heroY = useTransform(scrollY, [0, 500], [0, -60]);
@@ -735,7 +715,7 @@ export default function Home() {
             >
               <Quote size={40} className="text-kerala-gold/20 mx-auto mb-6" />
               <p className="text-coconut-cream/80 text-lg leading-relaxed italic mb-8">
-                "{testimonials[tIdx].text}"
+                &ldquo;{testimonials[tIdx].text}&rdquo;
               </p>
               <p className="font-semibold text-coconut-cream">{testimonials[tIdx].name}</p>
               <p className="text-xs text-coconut-cream/40 tracking-wide mt-1">{testimonials[tIdx].role}</p>

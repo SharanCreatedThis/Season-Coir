@@ -1,3 +1,7 @@
+/**
+ * Interactive 3D tender coconut scene with scroll-driven bouncing animation.
+ * Uses React Three Fiber + Three.js. Dynamically imported with { ssr: false }.
+ */
 "use client";
 
 import React, { useRef, useMemo } from "react";

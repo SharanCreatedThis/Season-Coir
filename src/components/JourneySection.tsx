@@ -1,3 +1,8 @@
+/**
+ * Scroll-pinned manufacturing process timeline with glowing vertical progress line.
+ * Five-step journey from coconut harvesting to finished mat, with image and text panels.
+ * Uses Framer Motion useScroll + useSpring for smooth scroll-linked animations.
+ */
 "use client";
 
 import React, { useRef, useState, useEffect } from "react";

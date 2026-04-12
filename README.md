@@ -4,6 +4,8 @@ Premium eco-luxury marketing website for **Season Coir Exports**, a B2B coir mat
 
 **Live site → [seasoncoir.vercel.app](https://seasoncoir.vercel.app)**
 
+![Season Coir Website Preview](https://seasoncoir.vercel.app/opengraph-image)
+
 ---
 
 ## Tech Stack
@@ -67,6 +69,26 @@ npx vercel --prod
 ```
 
 Or connect the repository to a Vercel project for automatic preview and production deployments on push.
+
+---
+
+## Project Structure
+
+```
+src/
+├── app/
+│   ├── page.tsx          # Home page — all homepage sections composed here
+│   ├── layout.tsx        # Root layout (fonts, metadata, Navbar, Footer)
+│   └── globals.css       # Tailwind v4 theme tokens + global keyframe animations
+├── components/
+│   ├── layout/
+│   │   ├── Navbar.tsx            # Fixed top nav with dropdown menus + mobile overlay
+│   │   └── Footer.tsx            # Site footer with links and contact details
+│   ├── JourneySection.tsx        # Scroll-pinned manufacturing process timeline
+│   └── CoconutScrollEffect.tsx   # Three.js / R3F 3D coconut hero component
+└── data/
+    └── index.ts          # All static data: products, features, testimonials, export markets
+```
 
 ---
 
