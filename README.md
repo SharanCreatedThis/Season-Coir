@@ -1,36 +1,82 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Season Coir — Official Website
+
+Premium eco-luxury marketing website for **Season Coir Exports**, a B2B coir mat manufacturer and exporter from Alleppey, Kerala, established in 1980.
+
+**Live site → [seasoncoir.vercel.app](https://seasoncoir.vercel.app)**
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Framework | Next.js 15 (App Router) |
+| Language | TypeScript |
+| Styling | Tailwind CSS v4 |
+| Animation | Framer Motion |
+| 3D | React Three Fiber + Three.js |
+| Analytics | Vercel Speed Insights |
+| Deployment | Vercel |
+
+---
+
+## Features
+
+- **Scrollytelling hero** — CSS-first instant-appear animations with scroll-linked Framer Motion transforms
+- **3D coconut scene** — interactive Three.js / React Three Fiber model in the hero
+- **Product catalogue** — 21 products across 5 categories with animated filter tabs
+- **Manufacturing journey** — immersive scroll-tracked process timeline with glowing progress line
+- **Global exports** — six partner country cards with staggered reveal
+- **Contact form** — B2B enquiry form with validation
+- **Fully responsive** — mobile-first layout across all breakpoints
+
+---
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js v24+
+- npm
+
+### Install & run
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Build
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm start
+```
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## Deployment
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The site is deployed on Vercel. To deploy from the CLI:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm run build
+npx vercel --prod
+```
 
-## Deploy on Vercel
+Or connect the repository to a Vercel project for automatic preview and production deployments on push.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Credits
+
+- **Built by** Sharan M ([@sharan.created.this](https://www.instagram.com/sharan.created.this))
+- **Client** Season Coir Exports, Alleppey, Kerala
+
+---
+
+## License
+
+MIT © 2026 Sharan M — see [LICENSE](./LICENSE) for details.

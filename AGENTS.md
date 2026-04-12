@@ -1,3 +1,4 @@
+<!-- AI agent configuration file for Claude Code / Antigravity -->
 <!-- BEGIN:nextjs-agent-rules -->
 # This is NOT the Next.js you know
 
