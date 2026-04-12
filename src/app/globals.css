@@ -1,26 +1,60 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-forest-dark:   #0F261C;
+  --color-forest-green:  #1B4332;
+  --color-coconut-cream: #F5F0E8;
+  --color-coir-brown:    #8B6914;
+  --color-coir-light:    #B48922;
+  --color-kerala-gold:   #D4AF37;
+  --color-background:    #F5F0E8;
+  --color-foreground:    #0F261C;
+  --font-sans:           var(--font-inter);
+  --font-serif:          var(--font-playfair);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-coconut-cream);
+  color:            var(--color-foreground);
+  font-family:      var(--font-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.animate-marquee { animation: marquee 30s linear infinite; }
+
+/* ── Hero instant-appear: CSS-only, runs before JS hydrates ── */
+@keyframes hero-fade-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.hero-instant {
+  animation: hero-fade-up 0.55s cubic-bezier(0.16,1,0.3,1) both;
+}
+.hero-instant-1 { animation-delay: 0.05s; }
+.hero-instant-2 { animation-delay: 0.15s; }
+.hero-instant-3 { animation-delay: 0.28s; }
+.hero-instant-4 { animation-delay: 0.38s; }
+.hero-instant-5 { animation-delay: 0.48s; }
+
+/* Headline clip reveal — CSS keyframe, no JS needed */
+@keyframes hero-clip-up {
+  from { transform: translateY(105%); opacity: 0; }
+  to   { transform: translateY(0%);   opacity: 1; }
+}
+.hero-clip {
+  display: block;
+  animation: hero-clip-up 0.7s cubic-bezier(0.16,1,0.3,1) both;
+}
+.hero-clip-1 { animation-delay: 0.1s; }
+.hero-clip-2 { animation-delay: 0.25s; }
+
+::-webkit-scrollbar       { width: 5px; }
+::-webkit-scrollbar-track { background: #0F261C; }
+::-webkit-scrollbar-thumb { background: #D4AF37; border-radius: 3px; }
