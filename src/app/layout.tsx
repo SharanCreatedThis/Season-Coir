@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { getOrganizationSchema, getLocalBusinessSchema } from "@/lib/schema";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -35,6 +36,16 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" suppressHydrationWarning className={`${inter.variable} ${playfair.variable}`}>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(getOrganizationSchema()) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(getLocalBusinessSchema()) }}
+        />
+      </head>
       <body className="min-h-screen flex flex-col antialiased">
         <Navbar />
         <main className="flex-1">{children}</main>
