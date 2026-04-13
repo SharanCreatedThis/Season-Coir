@@ -2,10 +2,11 @@
  * Scroll-pinned manufacturing process timeline with glowing vertical progress line.
  * Five-step journey from coconut harvesting to finished mat, with image and text panels.
  * Uses Framer Motion useScroll + useSpring for smooth scroll-linked animations.
+ * Background storytelling gradient transitions from warm golden-green → deep forest → dark emerald.
  */
 "use client";
 
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import { motion, AnimatePresence, useScroll, useTransform, useSpring } from "framer-motion";
 import Image from "next/image";
 
@@ -53,6 +54,22 @@ const STEPS = [
   },
 ];
 
+// ─── Background gradient stages ───────────────────────────────────────────────
+// Each stage is a full CSS gradient string for the background panel.
+// We crossfade between them using opacity layers driven by scroll progress.
+const BG_STAGES = [
+  // Step 01 — warm golden-green, Kerala golden hour
+  "linear-gradient(160deg, #1a3320 0%, #22401a 35%, #1c3218 65%, #0f2214 100%)",
+  // Step 02 — shifting toward deeper green, warm mist
+  "linear-gradient(160deg, #152e1e 0%, #1a3820 40%, #163018 70%, #0d2010 100%)",
+  // Step 03 — deep forest green, mid-section richness
+  "linear-gradient(160deg, #0f2a1a 0%, #163222 40%, #102815 70%, #0a1c0e 100%)",
+  // Step 04 — rich forest, darkening
+  "linear-gradient(160deg, #0d2418 0%, #122a1c 40%, #0e2214 70%, #081810 100%)",
+  // Step 05 — sophisticated dark emerald, luxury finish
+  "linear-gradient(160deg, #091c14 0%, #0e2418 40%, #0a1c12 70%, #060e0a 100%)",
+];
+
 // ─── Char-by-char title reveal ────────────────────────────────────────────────
 function SplitTitle({ text }: { text: string }) {
   return (
@@ -76,7 +93,8 @@ function SplitTitle({ text }: { text: string }) {
 function DrawRule() {
   return (
     <motion.div
-      className="h-px bg-kerala-gold/50 origin-left mt-8 mb-10"
+      className="h-px origin-left mt-8 mb-10"
+      style={{ background: "linear-gradient(90deg, rgba(212,175,55,0.6), rgba(212,175,55,0.15))" }}
       initial={{ scaleX: 0 }}
       animate={{ scaleX: 1 }}
       transition={{ duration: 0.9, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
@@ -88,69 +106,127 @@ function DrawRule() {
 export default function JourneySection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
-  const [prevActive, setPrevActive] = useState(0);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"],
   });
 
-  // Smooth spring for progress rail
   const springProgress = useSpring(scrollYProgress, { stiffness: 60, damping: 20 });
 
   // Drive active step from scroll
-  useEffect(() => {
+  React.useEffect(() => {
     return scrollYProgress.on("change", (v) => {
       const idx = Math.min(Math.floor(v * STEPS.length), STEPS.length - 1);
-      setActive((prev) => {
-        if (prev !== idx) setPrevActive(prev);
-        return idx;
-      });
+      setActive(idx);
     });
   }, [scrollYProgress]);
 
-  // Progress bar width as % string
+  // Progress rail
   const progressWidth = useTransform(springProgress, [0, 1], ["0%", "100%"]);
 
-  // Vertical glow dot — travels top→bottom as section scrolls
-  // "top" goes from 5% to 95% so it never clips outside the line
+  // Vertical glow dot
   const glowDotTop = useTransform(springProgress, [0, 1], ["5%", "95%"]);
-
-  // Filled portion of the vertical line — grows downward with scroll
   const lineFillHeight = useTransform(springProgress, [0, 1], ["0%", "100%"]);
 
-  // Image scale — subtle zoom on active step
-  const imgScale = useTransform(scrollYProgress, [0, 1], [1.0, 1.12]);
+  // Image subtle zoom
+  const imgScale = useTransform(scrollYProgress, [0, 1], [1.0, 1.1]);
+
+  // Warm overlay opacity — fades from rich at step 0 to gone at step 4
+  // Gives the "golden hour → night" feel
+  const warmOverlayOpacity = useTransform(springProgress, [0, 0.6], [0.18, 0]);
+
+  // Mist texture layer — pulses gently, always subtle
+  const mistY = useTransform(springProgress, [0, 1], ["0%", "-8%"]);
 
   return (
-    <section ref={containerRef} className="relative bg-forest-dark" style={{ height: `${STEPS.length * 100}vh` }}>
-
+    <section
+      ref={containerRef}
+      className="relative"
+      style={{ height: `${STEPS.length * 100}vh` }}
+    >
       {/* ── Sticky viewport ─────────────────────────────────────────────── */}
       <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col">
 
+        {/* ── Storytelling background — crossfades between 5 gradient stages ── */}
+        <div className="absolute inset-0 z-0">
+          {BG_STAGES.map((bg, i) => (
+            <motion.div
+              key={i}
+              className="absolute inset-0"
+              style={{ background: bg }}
+              animate={{ opacity: active === i ? 1 : 0 }}
+              transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
+            />
+          ))}
+
+          {/* Warm golden-hour overlay — fades as you scroll deeper */}
+          <motion.div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              opacity: warmOverlayOpacity,
+              background: "radial-gradient(ellipse 80% 60% at 20% 40%, rgba(212,175,55,0.22) 0%, rgba(139,105,20,0.12) 45%, transparent 75%)",
+            }}
+          />
+
+          {/* Coir-fiber mist texture — moves gently with scroll ── */}
+          <motion.div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              y: mistY,
+              opacity: 0.045,
+              backgroundImage: [
+                "repeating-linear-gradient(12deg, transparent, transparent 18px, rgba(212,175,55,0.9) 19px, transparent 20px)",
+                "repeating-linear-gradient(-8deg, transparent, transparent 28px, rgba(212,175,55,0.5) 29px, transparent 30px)",
+              ].join(", "),
+              backgroundSize: "120px 120px, 180px 180px",
+            }}
+          />
+
+          {/* Radial vignette — frames content, always present */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{ background: "radial-gradient(ellipse 100% 100% at 50% 50%, transparent 45%, rgba(0,0,0,0.45) 100%)" }}
+          />
+
+          {/* Top edge fade */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, transparent 12%)" }}
+          />
+        </div>
+
         {/* ── Top progress rail ─────────────────────────────────────────── */}
-        <div className="relative w-full h-[2px] bg-white/5 shrink-0 z-20">
+        <div className="relative w-full h-[2px] shrink-0 z-20" style={{ background: "rgba(212,175,55,0.07)" }}>
           <motion.div
-            className="absolute left-0 top-0 h-full bg-kerala-gold origin-left"
-            style={{ width: progressWidth }}
+            className="absolute left-0 top-0 h-full origin-left"
+            style={{
+              width: progressWidth,
+              background: "linear-gradient(90deg, rgba(212,175,55,0.4), #D4AF37)",
+            }}
           />
-          {/* Glowing dot travelling along rail */}
           <motion.div
-            className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-kerala-gold"
-            style={{ left: progressWidth, boxShadow: "0 0 10px 3px rgba(212,175,55,0.6)" }}
+            className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-[7px] h-[7px] rounded-full"
+            style={{
+              left: progressWidth,
+              background: "#D4AF37",
+              boxShadow: "0 0 12px 4px rgba(212,175,55,0.55)",
+            }}
           />
-          {/* Step markers */}
           {STEPS.map((_, i) => (
             <div
               key={i}
-              className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-1 h-1 rounded-full transition-colors duration-500"
-              style={{ left: `${(i / (STEPS.length - 1)) * 100}%`, background: i <= active ? "#D4AF37" : "rgba(255,255,255,0.2)" }}
+              className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-[3px] h-[3px] rounded-full transition-colors duration-700"
+              style={{
+                left: `${(i / (STEPS.length - 1)) * 100}%`,
+                background: i <= active ? "#D4AF37" : "rgba(255,255,255,0.15)",
+              }}
             />
           ))}
         </div>
 
         {/* ── Main content area ─────────────────────────────────────────── */}
-        <div className="flex flex-1 min-h-0">
+        <div className="flex flex-1 min-h-0 relative z-10">
 
           {/* ── LEFT: Image panel ─────────────────────────────────── */}
           <div className="relative w-[52%] h-full overflow-hidden">
@@ -163,12 +239,9 @@ export default function JourneySection() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+                    transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1] }}
                   >
-                    <motion.div
-                      className="absolute inset-0"
-                      style={{ scale: imgScale }}
-                    >
+                    <motion.div className="absolute inset-0" style={{ scale: imgScale }}>
                       <Image
                         src={step.image}
                         alt={step.title}
@@ -178,108 +251,103 @@ export default function JourneySection() {
                         priority={i === 0}
                       />
                     </motion.div>
-                    {/* Left panel cinematic overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-forest-dark/30 via-transparent to-forest-dark/60" />
-                    <div className="absolute inset-0 bg-gradient-to-b from-forest-dark/50 via-transparent to-forest-dark/40" />
+                    {/* Left panel cinematic colour-grading overlays */}
+                    <div className="absolute inset-0" style={{ background: "linear-gradient(to right, rgba(10,26,16,0.5) 0%, transparent 55%, rgba(10,26,16,0.65) 100%)" }} />
+                    <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(10,26,16,0.45) 0%, transparent 30%, transparent 65%, rgba(10,26,16,0.55) 100%)" }} />
+                    {/* Warm left-edge burn */}
+                    <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 40% 60% at 0% 50%, rgba(139,105,20,0.12) 0%, transparent 60%)" }} />
                   </motion.div>
                 )
               ))}
             </AnimatePresence>
 
-            {/* Section label — top-left overlay */}
+            {/* Section label */}
             <div className="absolute top-10 left-10 z-10 flex items-center gap-3">
-              <div className="w-4 h-px bg-kerala-gold/60" />
-              <span className="text-kerala-gold/60 text-[9px] font-bold tracking-[0.5em] uppercase">
+              <div className="w-5 h-px" style={{ background: "rgba(212,175,55,0.55)" }} />
+              <span style={{ fontSize: "0.6rem", letterSpacing: "0.5em", color: "rgba(212,175,55,0.55)" }} className="font-bold uppercase">
                 Manufacturing Process
               </span>
             </div>
 
-            {/* "The Journey" wordmark — bottom-left, always visible */}
+            {/* "The Journey" wordmark */}
             <div className="absolute bottom-10 left-10 z-10">
-              <motion.h2
-                className="font-serif text-coconut-cream font-bold leading-[0.9]"
-                style={{ fontSize: "clamp(2.8rem, 4.5vw, 5rem)", textShadow: "0 2px 24px rgba(15,38,28,0.8)" }}
+              <h2
+                className="font-serif font-bold leading-[0.88]"
+                style={{
+                  fontSize: "clamp(2.8rem, 4.5vw, 5rem)",
+                  color: "rgba(245,240,232,0.92)",
+                  textShadow: "0 4px 32px rgba(0,0,0,0.7)",
+                  letterSpacing: "-0.02em",
+                }}
               >
-                The<br />Journey
-              </motion.h2>
+                The<br />
+                <em className="not-italic" style={{ color: "#D4AF37" }}>Journey</em>
+              </h2>
+              {/* Tagline under wordmark */}
+              <p style={{ fontSize: "0.68rem", letterSpacing: "0.22em", color: "rgba(245,240,232,0.28)", marginTop: "0.75rem" }} className="uppercase font-medium">
+                From husk to mat
+              </p>
             </div>
           </div>
 
           {/* ── DIVIDER: scroll-tracked glowing vertical line ─────── */}
           <div className="relative w-[2px] shrink-0 self-stretch overflow-visible" style={{ zIndex: 20 }}>
-
-            {/* Track — full height, dim base */}
-            <div className="absolute inset-0 w-full" style={{ background: "rgba(212,175,55,0.08)" }} />
-
-            {/* Filled portion — grows from top as user scrolls */}
+            <div className="absolute inset-0 w-full" style={{ background: "rgba(212,175,55,0.06)" }} />
             <motion.div
               className="absolute top-0 left-0 w-full origin-top"
               style={{
                 height: lineFillHeight,
-                background: "linear-gradient(to bottom, transparent, rgba(212,175,55,0.25) 20%, rgba(212,175,55,0.55) 80%, rgba(212,175,55,0.15))",
+                background: "linear-gradient(to bottom, transparent, rgba(212,175,55,0.2) 20%, rgba(212,175,55,0.5) 80%, rgba(212,175,55,0.12))",
               }}
             />
-
-            {/* Glowing dot — travels top→bottom with scroll */}
-            <motion.div
-              className="absolute left-1/2 -translate-x-1/2"
-              style={{ top: glowDotTop }}
-            >
-              {/* Outer halo — large soft glow */}
-              <div
-                className="absolute -translate-x-1/2 -translate-y-1/2 rounded-full pointer-events-none"
-                style={{
-                  width: 40,
-                  height: 40,
-                  background: "radial-gradient(circle, rgba(212,175,55,0.35) 0%, transparent 70%)",
-                  filter: "blur(4px)",
-                }}
-              />
-              {/* Mid glow ring */}
-              <div
-                className="absolute -translate-x-1/2 -translate-y-1/2 rounded-full pointer-events-none"
-                style={{
-                  width: 18,
-                  height: 18,
-                  background: "radial-gradient(circle, rgba(212,175,55,0.6) 0%, transparent 70%)",
-                  filter: "blur(2px)",
-                }}
-              />
-              {/* Core dot */}
+            <motion.div className="absolute left-1/2 -translate-x-1/2" style={{ top: glowDotTop }}>
+              <div className="absolute -translate-x-1/2 -translate-y-1/2 rounded-full pointer-events-none" style={{ width: 44, height: 44, background: "radial-gradient(circle, rgba(212,175,55,0.3) 0%, transparent 70%)", filter: "blur(5px)" }} />
+              <div className="absolute -translate-x-1/2 -translate-y-1/2 rounded-full pointer-events-none" style={{ width: 18, height: 18, background: "radial-gradient(circle, rgba(212,175,55,0.55) 0%, transparent 70%)", filter: "blur(2px)" }} />
               <motion.div
                 className="absolute -translate-x-1/2 -translate-y-1/2 rounded-full"
                 style={{ width: 6, height: 6, background: "#D4AF37" }}
-                animate={{ boxShadow: ["0 0 6px 2px rgba(212,175,55,0.8)", "0 0 14px 5px rgba(212,175,55,0.4)", "0 0 6px 2px rgba(212,175,55,0.8)"] }}
-                transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                animate={{ boxShadow: ["0 0 6px 2px rgba(212,175,55,0.8)", "0 0 16px 6px rgba(212,175,55,0.35)", "0 0 6px 2px rgba(212,175,55,0.8)"] }}
+                transition={{ repeat: Infinity, duration: 2.2, ease: "easeInOut" }}
               />
             </motion.div>
           </div>
 
           {/* ── RIGHT: Text content panel ─────────────────────────── */}
-          <div className="flex-1 h-full bg-forest-dark flex flex-col justify-center px-14 lg:px-20 relative overflow-hidden">
+          <div className="flex-1 h-full flex flex-col justify-center px-14 lg:px-20 relative overflow-hidden">
 
             {/* Giant watermark step number */}
             <AnimatePresence mode="wait">
               <motion.div
                 key={`wm-${active}`}
-                className="absolute right-8 bottom-6 font-serif font-bold text-white/[0.04] select-none pointer-events-none leading-none"
-                style={{ fontSize: "clamp(10rem, 18vw, 18rem)" }}
+                className="absolute right-6 bottom-4 font-serif font-bold select-none pointer-events-none leading-none"
+                style={{ fontSize: "clamp(9rem, 17vw, 17rem)", color: "rgba(212,175,55,0.04)" }}
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -30 }}
-                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
               >
                 {STEPS[active].num}
               </motion.div>
             </AnimatePresence>
 
-            {/* Step counter — e.g. 02 / 05 */}
+            {/* Subtle top-right radial bloom — changes warmth per step */}
+            <motion.div
+              className="absolute top-0 right-0 w-80 h-80 rounded-full pointer-events-none"
+              style={{
+                background: "radial-gradient(circle, rgba(212,175,55,0.05) 0%, transparent 70%)",
+                filter: "blur(40px)",
+              }}
+              animate={{ opacity: [0.6, 1, 0.6] }}
+              transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
+            />
+
+            {/* Step counter */}
             <div className="flex items-center gap-3 mb-10">
               <AnimatePresence mode="wait">
                 <motion.span
                   key={`num-${active}`}
-                  className="font-serif text-kerala-gold font-bold"
-                  style={{ fontSize: "2.5rem", lineHeight: 1 }}
+                  className="font-serif font-bold"
+                  style={{ fontSize: "2.4rem", lineHeight: 1, color: "#D4AF37" }}
                   initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -12 }}
@@ -288,13 +356,13 @@ export default function JourneySection() {
                   {STEPS[active].num}
                 </motion.span>
               </AnimatePresence>
-              <span className="text-white/15 font-light text-sm tracking-widest">/ 05</span>
-              <div className="flex-1 h-px bg-kerala-gold/10 ml-2" />
-              {/* Accent label */}
+              <span style={{ color: "rgba(255,255,255,0.12)", fontSize: "0.85rem", letterSpacing: "0.12em" }} className="font-light">/ 05</span>
+              <div className="flex-1 h-px ml-2" style={{ background: "rgba(212,175,55,0.08)" }} />
               <AnimatePresence mode="wait">
                 <motion.span
                   key={`acc-${active}`}
-                  className="text-kerala-gold/45 text-[9px] font-bold tracking-[0.4em] uppercase"
+                  style={{ fontSize: "0.6rem", letterSpacing: "0.4em", color: "rgba(212,175,55,0.4)" }}
+                  className="font-bold uppercase"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
@@ -309,7 +377,8 @@ export default function JourneySection() {
             <AnimatePresence mode="wait">
               <motion.p
                 key={`sub-${active}`}
-                className="text-kerala-gold/60 text-[10px] font-bold tracking-[0.45em] uppercase mb-4"
+                style={{ fontSize: "0.65rem", letterSpacing: "0.45em", color: "rgba(212,175,55,0.55)" }}
+                className="font-bold uppercase mb-5"
                 initial={{ opacity: 0, x: -12 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 12 }}
@@ -324,8 +393,14 @@ export default function JourneySection() {
               <AnimatePresence mode="wait">
                 <motion.h3
                   key={`title-${active}`}
-                  className="font-serif text-coconut-cream font-bold"
-                  style={{ fontSize: "clamp(2.2rem, 3.5vw, 3.5rem)", lineHeight: 1.05, letterSpacing: "-0.02em" }}
+                  className="font-serif font-bold"
+                  style={{
+                    fontSize: "clamp(2.4rem, 3.8vw, 3.8rem)",
+                    lineHeight: 1.02,
+                    letterSpacing: "-0.025em",
+                    color: "rgba(245,240,232,0.95)",
+                    textShadow: "0 2px 20px rgba(0,0,0,0.5)",
+                  }}
                 >
                   <SplitTitle text={STEPS[active].title} />
                 </motion.h3>
@@ -339,12 +414,18 @@ export default function JourneySection() {
               </motion.div>
             </AnimatePresence>
 
-            {/* Description text */}
+            {/* Description */}
             <AnimatePresence mode="wait">
               <motion.p
                 key={`desc-${active}`}
-                className="text-coconut-cream/55 font-light leading-[1.85]"
-                style={{ fontSize: "clamp(0.9rem, 1.1vw, 1.05rem)", maxWidth: 420 }}
+                style={{
+                  fontSize: "clamp(0.9rem, 1.1vw, 1.05rem)",
+                  lineHeight: 1.9,
+                  maxWidth: 420,
+                  color: "rgba(245,240,232,0.48)",
+                  letterSpacing: "0.01em",
+                }}
+                className="font-light"
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
@@ -354,8 +435,8 @@ export default function JourneySection() {
               </motion.p>
             </AnimatePresence>
 
-            {/* Next step hint — bottom */}
-            <div className="mt-14">
+            {/* Next step hint */}
+            <div className="mt-16">
               <AnimatePresence mode="wait">
                 {active < STEPS.length - 1 && (
                   <motion.div
@@ -366,10 +447,10 @@ export default function JourneySection() {
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.5, delay: 0.6 }}
                   >
-                    <div className="w-3 h-3 rounded-full border border-kerala-gold/30 flex items-center justify-center">
-                      <div className="w-1 h-1 rounded-full bg-kerala-gold/50" />
+                    <div className="w-3 h-3 rounded-full flex items-center justify-center" style={{ border: "1px solid rgba(212,175,55,0.25)" }}>
+                      <div className="w-1 h-1 rounded-full" style={{ background: "rgba(212,175,55,0.45)" }} />
                     </div>
-                    <span className="text-coconut-cream/25 text-[9px] tracking-[0.4em] uppercase font-medium">
+                    <span style={{ fontSize: "0.6rem", letterSpacing: "0.4em", color: "rgba(245,240,232,0.22)" }} className="uppercase font-medium">
                       Next · {STEPS[active + 1].title}
                     </span>
                   </motion.div>
@@ -382,10 +463,10 @@ export default function JourneySection() {
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.6, delay: 0.5 }}
                   >
-                    <div className="w-3 h-3 rounded-full border border-kerala-gold/60 flex items-center justify-center">
-                      <div className="w-1.5 h-1.5 rounded-full bg-kerala-gold" />
+                    <div className="w-3 h-3 rounded-full flex items-center justify-center" style={{ border: "1px solid rgba(212,175,55,0.55)" }}>
+                      <div className="w-1.5 h-1.5 rounded-full" style={{ background: "#D4AF37" }} />
                     </div>
-                    <span className="text-kerala-gold/50 text-[9px] tracking-[0.4em] uppercase font-medium">
+                    <span style={{ fontSize: "0.6rem", letterSpacing: "0.4em", color: "rgba(212,175,55,0.45)" }} className="uppercase font-medium">
                       Process Complete
                     </span>
                   </motion.div>
@@ -393,16 +474,16 @@ export default function JourneySection() {
               </AnimatePresence>
             </div>
 
-            {/* Step dots — bottom right */}
+            {/* Step dots */}
             <div className="absolute bottom-10 right-14 flex flex-col gap-2.5">
               {STEPS.map((_, i) => (
                 <motion.div
                   key={i}
                   className="rounded-full"
                   animate={{
-                    width: i === active ? 16 : 4,
+                    width: i === active ? 18 : 4,
                     height: 4,
-                    background: i === active ? "#D4AF37" : "rgba(255,255,255,0.15)",
+                    background: i === active ? "#D4AF37" : "rgba(255,255,255,0.1)",
                   }}
                   transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                 />

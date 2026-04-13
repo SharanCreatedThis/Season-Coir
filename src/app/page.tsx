@@ -104,73 +104,105 @@ export default function Home() {
       {/* ── 1. HERO ──────────────────────────────────────────────────────────── */}
       <section
         ref={heroRef}
-        className="relative w-full h-screen min-h-[700px] flex items-center justify-center overflow-hidden"
+        className="relative w-full h-screen min-h-[720px] flex items-end overflow-hidden"
       >
-        {/* ── BG: parallax image, focal point on the lit canopy gap ── */}
-        <motion.div style={{ y: bgY }} className="absolute inset-0 z-0 h-[125%] -top-[12%]">
+        {/* ── Layer 0: Background image — slowest parallax ── */}
+        <motion.div
+          style={{ y: bgY }}
+          className="absolute inset-0 z-0 h-[130%] -top-[15%]"
+        >
           <Image
             src="/images/placeholders/hero_kerala_grove.png"
             alt="Kerala Coconut Grove"
             fill priority sizes="100vw"
-            className="object-cover object-[50%_60%]"
+            className="object-cover object-[50%_55%]"
           />
         </motion.div>
 
-        {/* ── Vignette: dark border ring, clear centre — image breathes ── */}
+        {/* ── Layer 1: Cinematic grading — golden hour warmth ── */}
         <div className="absolute inset-0 z-[1] pointer-events-none">
-          {/* Top scrim for navbar */}
-          <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(15,38,28,0.6) 0%, transparent 28%)" }} />
-          {/* Bottom fade to trust bar */}
-          <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, transparent 60%, rgba(15,38,28,0.75) 85%, rgba(15,38,28,0.97) 100%)" }} />
-          {/* Central dark oval — frames the subject, protects centre text */}
-          <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 75% 65% at 50% 50%, rgba(15,38,28,0.38) 0%, rgba(15,38,28,0.55) 70%, rgba(15,38,28,0.82) 100%)" }} />
+          {/* Warm golden-hour overlay on the right */}
+          <div style={{ background: "radial-gradient(ellipse 55% 80% at 78% 30%, rgba(212,175,55,0.13) 0%, transparent 70%)" }} className="absolute inset-0" />
+          {/* Deep left shadow — where text lives */}
+          <div style={{ background: "linear-gradient(105deg, rgba(15,38,28,0.92) 0%, rgba(15,38,28,0.72) 38%, rgba(15,38,28,0.22) 65%, transparent 100%)" }} className="absolute inset-0" />
+          {/* Top scrim for navbar legibility */}
+          <div style={{ background: "linear-gradient(to bottom, rgba(15,38,28,0.55) 0%, transparent 22%)" }} className="absolute inset-0" />
+          {/* Bottom fade — blends to trust bar */}
+          <div style={{ background: "linear-gradient(to bottom, transparent 55%, rgba(15,38,28,0.8) 80%, rgba(15,38,28,0.98) 100%)" }} className="absolute inset-0" />
         </div>
 
-        {/* ── Content: CSS-animated immediately on paint, scroll-linked exit via Framer ── */}
+        {/* ── Layer 2: Floating coir-fiber particles — scroll-linked opacity ── */}
+        <motion.div style={{ opacity: heroOpacity }} className="absolute inset-0 z-[2] pointer-events-none overflow-hidden">
+          {[
+            { left: "12%", top: "22%", w: 48, h: 2, rot: -28, delay: 0.0, dur: 8.0 },
+            { left: "8%",  top: "58%", w: 36, h: 1.5, rot: 15, delay: 1.4, dur: 9.5 },
+            { left: "22%", top: "76%", w: 56, h: 2, rot: -8, delay: 0.7, dur: 7.2 },
+            { left: "72%", top: "18%", w: 40, h: 1.5, rot: 22, delay: 2.1, dur: 8.8 },
+            { left: "82%", top: "44%", w: 30, h: 1.5, rot: -18, delay: 0.4, dur: 10.0 },
+            { left: "65%", top: "72%", w: 52, h: 2, rot: 5, delay: 1.8, dur: 7.6 },
+            { left: "45%", top: "12%", w: 34, h: 1.5, rot: -35, delay: 3.0, dur: 9.0 },
+            { left: "35%", top: "85%", w: 44, h: 2, rot: 12, delay: 1.1, dur: 8.4 },
+          ].map((p, i) => (
+            <motion.div
+              key={i}
+              className="absolute rounded-full"
+              style={{
+                left: p.left, top: p.top,
+                width: p.w, height: p.h,
+                rotate: p.rot,
+                background: "linear-gradient(90deg, transparent, rgba(212,175,55,0.28), transparent)",
+              }}
+              animate={{ y: [0, -22, 0], opacity: [0, 0.6, 0], x: [0, 6, 0] }}
+              transition={{ repeat: Infinity, duration: p.dur, delay: p.delay, ease: "easeInOut" }}
+            />
+          ))}
+        </motion.div>
+
+        {/* ── Layer 3: Hero text content — left-aligned editorial ── */}
         <motion.div
           style={{ opacity: heroOpacity, y: heroY }}
-          className="relative z-10 flex flex-col items-center text-center px-6"
+          className="relative z-10 w-full max-w-7xl mx-auto px-8 md:px-14 pb-24 md:pb-28"
         >
-          {/* Eyebrow pill — CSS animation, fires before JS hydrates */}
-          <div className="hero-instant hero-instant-1 mb-9">
+          {/* Eyebrow */}
+          <div className="hero-instant hero-instant-1 mb-8 flex items-center gap-4">
+            <div className="h-px w-8" style={{ background: "rgba(212,175,55,0.7)" }} />
             <span
-              className="inline-flex items-center gap-3 rounded-full px-6 py-2.5"
-              style={{
-                background: "rgba(15,38,28,0.55)",
-                backdropFilter: "blur(12px)",
-                WebkitBackdropFilter: "blur(12px)",
-                border: "1px solid rgba(212,175,55,0.35)",
-                boxShadow: "0 2px 24px rgba(0,0,0,0.25), inset 0 1px 0 rgba(212,175,55,0.1)",
-              }}
+              style={{ fontSize: "0.68rem", letterSpacing: "0.42em", color: "rgba(212,175,55,0.85)" }}
+              className="font-semibold uppercase"
             >
-              <span className="w-1 h-1 rounded-full bg-kerala-gold animate-pulse shrink-0" />
-              <span
-                className="font-semibold tracking-[0.32em] uppercase"
-                style={{ color: "#D4AF37", fontSize: "0.72rem" }}
-              >
-                Since 1980 · Alleppey, Kerala
-              </span>
-              <span className="w-1 h-1 rounded-full bg-kerala-gold/50 shrink-0" />
+              Est. 1980 · Alleppey, Kerala
             </span>
           </div>
 
-          {/* Headline — CSS clip-up, no JS wait */}
+          {/* Headline — two lines, left-aligned, cinematic scale */}
           <h1
-            className="font-serif font-bold text-white mb-5"
-            style={{ lineHeight: 1.1, textShadow: "0 2px 24px rgba(15,38,28,0.7)" }}
+            className="font-serif font-bold text-white mb-7"
+            style={{ lineHeight: 0.97 }}
           >
-            <div className="overflow-hidden pb-[0.3em]">
+            {/* Line 1 */}
+            <div className="pb-[0.28em]">
               <span
-                className="hero-clip hero-clip-1"
-                style={{ fontSize: "clamp(2.8rem, 5.5vw, 5.25rem)", letterSpacing: "-0.025em" }}
+                className="hero-clip hero-clip-1 block"
+                style={{
+                  fontSize: "clamp(3.4rem, 7.5vw, 7rem)",
+                  letterSpacing: "-0.03em",
+                  textShadow: "0 4px 40px rgba(15,38,28,0.6)",
+                }}
               >
                 Naturally Strong.
               </span>
             </div>
-            <div className="overflow-hidden pb-[0.3em]">
+            {/* Line 2 — gold italic */}
+            <div className="pb-[0.28em]">
               <span
-                className="hero-clip hero-clip-2 italic"
-                style={{ fontSize: "clamp(2.8rem, 5.5vw, 5.25rem)", letterSpacing: "-0.025em", color: "#D4AF37", textShadow: "0 2px 32px rgba(212,175,55,0.25)" }}
+                className="hero-clip hero-clip-2 block"
+                style={{
+                  fontSize: "clamp(3.4rem, 7.5vw, 7rem)",
+                  letterSpacing: "-0.03em",
+                  fontStyle: "italic",
+                  color: "#D4AF37",
+                  textShadow: "0 4px 48px rgba(212,175,55,0.22)",
+                }}
               >
                 Sustainably Yours.
               </span>
@@ -179,79 +211,129 @@ export default function Home() {
 
           {/* Subheading */}
           <p
-            className="hero-instant hero-instant-3 font-sans font-light tracking-[0.12em] mb-10"
-            style={{ fontSize: "clamp(0.75rem, 1vw, 0.9rem)", color: "rgba(245,240,232,0.65)", textShadow: "0 1px 8px rgba(15,38,28,0.9)", whiteSpace: "nowrap" }}
+            className="hero-instant hero-instant-3 mb-12"
+            style={{
+              fontSize: "clamp(0.9rem, 1.3vw, 1.05rem)",
+              lineHeight: 1.75,
+              color: "rgba(245,240,232,0.58)",
+              maxWidth: "34em",
+              letterSpacing: "0.015em",
+              textShadow: "0 1px 12px rgba(15,38,28,0.8)",
+            }}
           >
-            GI-certified coir, handcrafted in Kerala&apos;s backwaters — exported to 3 continents.
+            Premium coir products from the coconut heartland of Kerala,<br className="hidden md:block" />
+            crafted since 1980 and shipped to the world&apos;s most luxurious spaces.
           </p>
 
           {/* Buttons */}
-          <div className="hero-instant hero-instant-4 flex items-center gap-4 flex-wrap justify-center">
-            <a
+          <div className="hero-instant hero-instant-4 flex items-center gap-5 flex-wrap">
+            {/* Primary — gold fill */}
+            <motion.a
               href="#products"
-              className="group relative inline-flex items-center gap-2.5 overflow-hidden rounded-full px-8 py-3.5 text-[11px] font-bold tracking-[0.2em] uppercase text-forest-dark transition-shadow duration-300 hover:shadow-[0_8px_32px_rgba(212,175,55,0.45)]"
-              style={{ background: "#D4AF37" }}
-            >
-              <span className="relative z-10">Explore Products</span>
-              <ArrowRight size={13} className="relative z-10 transition-transform duration-300 group-hover:translate-x-1" />
-              <span className="absolute inset-0 rounded-full bg-white origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out" />
-            </a>
-            <Link
-              href="/about"
-              className="group inline-flex items-center gap-2.5 rounded-full px-8 py-3.5 text-[11px] font-bold tracking-[0.2em] uppercase transition-all duration-300"
+              whileHover={{ scale: 1.035 }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
+              className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full"
               style={{
-                border: "1px solid rgba(255,255,255,0.28)",
-                color: "rgba(255,255,255,0.8)",
-                backdropFilter: "blur(6px)",
-                WebkitBackdropFilter: "blur(6px)",
-              }}
-              onMouseEnter={e => {
-                (e.currentTarget as HTMLElement).style.background = "rgba(212,175,55,0.12)";
-                (e.currentTarget as HTMLElement).style.borderColor = "rgba(212,175,55,0.6)";
-                (e.currentTarget as HTMLElement).style.color = "#D4AF37";
-              }}
-              onMouseLeave={e => {
-                (e.currentTarget as HTMLElement).style.background = "transparent";
-                (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.28)";
-                (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.8)";
+                background: "linear-gradient(135deg, #D4AF37 0%, #B8962E 100%)",
+                padding: "15px 34px",
+                boxShadow: "0 8px 32px rgba(212,175,55,0.32), inset 0 1px 0 rgba(255,255,255,0.18)",
               }}
             >
-              Our Story
-            </Link>
+              {/* Shine sweep on hover */}
+              <span
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                style={{ background: "linear-gradient(105deg, transparent 35%, rgba(255,255,255,0.18) 50%, transparent 65%)" }}
+              />
+              <span
+                className="relative z-10 font-bold uppercase"
+                style={{ fontSize: "0.72rem", letterSpacing: "0.22em", color: "#0F261C" }}
+              >
+                Explore Products
+              </span>
+              <ArrowRight
+                size={13}
+                className="relative z-10 transition-transform duration-300 group-hover:translate-x-1"
+                style={{ color: "#0F261C" }}
+              />
+            </motion.a>
+
+            {/* Secondary — glass outline */}
+            <motion.div
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
+            >
+              <Link
+                href="/about"
+                className="inline-flex items-center gap-3 rounded-full"
+                style={{
+                  padding: "14px 32px",
+                  border: "1px solid rgba(212,175,55,0.35)",
+                  color: "rgba(245,240,232,0.82)",
+                  fontSize: "0.72rem",
+                  fontWeight: 600,
+                  letterSpacing: "0.22em",
+                  textTransform: "uppercase",
+                  backdropFilter: "blur(10px)",
+                  WebkitBackdropFilter: "blur(10px)",
+                  background: "rgba(15,38,28,0.28)",
+                  transition: "border-color 0.3s, color 0.3s, background 0.3s",
+                }}
+                onMouseEnter={e => {
+                  const el = e.currentTarget as HTMLElement;
+                  el.style.borderColor = "rgba(212,175,55,0.7)";
+                  el.style.color = "#D4AF37";
+                  el.style.background = "rgba(212,175,55,0.08)";
+                }}
+                onMouseLeave={e => {
+                  const el = e.currentTarget as HTMLElement;
+                  el.style.borderColor = "rgba(212,175,55,0.35)";
+                  el.style.color = "rgba(245,240,232,0.82)";
+                  el.style.background = "rgba(15,38,28,0.28)";
+                }}
+              >
+                Our Story
+              </Link>
+            </motion.div>
           </div>
         </motion.div>
 
-        {/* ── Scroll cue — CSS delayed, no JS wait ── */}
+        {/* ── Scroll cue — centred at bottom ── */}
         <motion.div
           style={{ opacity: heroOpacity }}
-          className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 hero-instant hero-instant-5"
+          className="absolute bottom-9 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 hero-instant hero-instant-5"
         >
-          <div className="w-5 h-8 rounded-full flex items-start justify-center pt-1.5" style={{ border: "1px solid rgba(255,255,255,0.15)" }}>
+          <div
+            className="w-[1px] h-12 overflow-hidden"
+            style={{ background: "rgba(255,255,255,0.1)" }}
+          >
             <motion.div
-              animate={{ y: [0, 7, 0], opacity: [1, 0, 1] }}
-              transition={{ repeat: Infinity, duration: 1.8, ease: "easeInOut" }}
-              className="w-px h-2 rounded-full bg-kerala-gold"
+              animate={{ y: ["-100%", "200%"] }}
+              transition={{ repeat: Infinity, duration: 1.6, ease: "easeInOut" }}
+              className="w-full h-1/2"
+              style={{ background: "linear-gradient(to bottom, transparent, rgba(212,175,55,0.7), transparent)" }}
             />
           </div>
-          <span style={{ fontSize: 8, letterSpacing: "0.5em", color: "rgba(255,255,255,0.2)" }} className="uppercase font-medium">Scroll</span>
+          <span style={{ fontSize: 7.5, letterSpacing: "0.5em", color: "rgba(255,255,255,0.18)" }} className="uppercase font-medium mt-1">Scroll</span>
         </motion.div>
 
-        {/* ── Bottom metadata strip ── */}
+        {/* ── Corner metadata ── */}
         <motion.div
           initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-          transition={{ delay: 2.3, duration: 1 }}
-          className="absolute bottom-10 left-8 md:left-14 z-10 flex items-center gap-1.5"
+          transition={{ delay: 2.0, duration: 1.2 }}
+          className="absolute bottom-9 left-8 md:left-14 z-10 flex items-center gap-1.5"
         >
-          <MapPin size={9} style={{ color: "rgba(212,175,55,0.4)" }} />
-          <span style={{ fontSize: 9, letterSpacing: "0.22em", color: "rgba(255,255,255,0.22)" }} className="uppercase font-medium">8.8932° N, 76.6141° E</span>
+          <MapPin size={9} style={{ color: "rgba(212,175,55,0.35)" }} />
+          <span style={{ fontSize: 9, letterSpacing: "0.22em", color: "rgba(255,255,255,0.2)" }} className="uppercase font-medium">8.8932° N, 76.6141° E</span>
         </motion.div>
 
         <motion.div
           initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-          transition={{ delay: 2.3, duration: 1 }}
-          className="absolute bottom-10 right-8 md:right-14 z-10"
+          transition={{ delay: 2.0, duration: 1.2 }}
+          className="absolute bottom-9 right-8 md:right-14 z-10"
         >
-          <span style={{ fontSize: 9, letterSpacing: "0.3em", color: "rgba(255,255,255,0.18)" }} className="uppercase font-medium">Est. MCMLXXX</span>
+          <span style={{ fontSize: 9, letterSpacing: "0.3em", color: "rgba(255,255,255,0.16)" }} className="uppercase font-medium">Est. MCMLXXX</span>
         </motion.div>
       </section>
 
