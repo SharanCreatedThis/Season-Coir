@@ -268,6 +268,36 @@ export const products: Product[] = [
   },
 ];
 
+// ─── Navigation ──────────────────────────────────────────────────────────────
+export type NavChild = { name: string; href: string };
+export type NavItem  = { name: string; href: string; children?: NavChild[] };
+
+export const NAV_ITEMS: NavItem[] = [
+  { name: "Home", href: "/" },
+  {
+    name: "About",
+    href: "/about",
+    children: [
+      { name: "Our Story",       href: "/about#story"   },
+      { name: "Our Process",     href: "/about#process" },
+      { name: "Why Season Coir", href: "/about#why"     },
+    ],
+  },
+  {
+    name: "Products",
+    href: "/#products",
+    children: [
+      { name: "PVC / Vinyl Coir Tufted", href: "/#products" },
+      { name: "Rubber Backed Coir",      href: "/#products" },
+      { name: "100% Rubber Mats",        href: "/#products" },
+      { name: "100% Coir Mats",          href: "/#products" },
+      { name: "Polypropylene Mats",      href: "/#products" },
+      { name: "View All",                href: "/#products" },
+    ],
+  },
+  { name: "Gallery", href: "/gallery" },
+];
+
 // ─── Export markets ───────────────────────────────────────────────────────────
 export const exportMarkets = [
   { country: "United Arab Emirates", flag: "🇦🇪", since: "1983" },

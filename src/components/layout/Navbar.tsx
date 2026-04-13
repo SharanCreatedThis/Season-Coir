@@ -9,35 +9,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { usePathname } from "next/navigation";
-
-type Child   = { name: string; href: string };
-type NavItem = { name: string; href: string; children?: Child[] };
-
-const NAV: NavItem[] = [
-  { name: "Home", href: "/" },
-  {
-    name: "About",
-    href: "/about",
-    children: [
-      { name: "Our Story",            href: "/about#story" },
-      { name: "Our Process",          href: "/about#process" },
-      { name: "Why Season Coir",      href: "/about#why" },
-    ],
-  },
-  {
-    name: "Products",
-    href: "/#products",
-    children: [
-      { name: "PVC / Vinyl Coir Tufted",  href: "/#products" },
-      { name: "Rubber Backed Coir",       href: "/#products" },
-      { name: "100% Rubber Mats",         href: "/#products" },
-      { name: "100% Coir Mats",           href: "/#products" },
-      { name: "Polypropylene Mats",       href: "/#products" },
-      { name: "View All",                 href: "/#products" },
-    ],
-  },
-  { name: "Gallery",  href: "/gallery" },
-];
+import { NAV_ITEMS } from "@/data";
 
 export default function Navbar() {
   const [scrolled,       setScrolled]       = useState(false);
@@ -95,7 +67,7 @@ export default function Navbar() {
 
         {/* Desktop nav */}
         <nav className="hidden lg:flex items-center gap-7">
-          {NAV.map((item) =>
+          {NAV_ITEMS.map((item) =>
             item.children ? (
               <div
                 key={item.name}
@@ -167,7 +139,8 @@ export default function Navbar() {
         <button
           className={`lg:hidden p-2 z-50 ${solid || mobileOpen ? "text-forest-dark" : "text-white"}`}
           onClick={() => setMobileOpen(!mobileOpen)}
-          aria-label="Toggle menu"
+          aria-label="Toggle navigation menu"
+          aria-expanded={mobileOpen}
         >
           {mobileOpen ? <X size={26} /> : <Menu size={26} />}
         </button>
@@ -184,7 +157,7 @@ export default function Navbar() {
             className="lg:hidden fixed inset-0 z-40 bg-coconut-cream overflow-y-auto"
           >
             <div className="flex flex-col items-start justify-center min-h-screen max-w-sm mx-auto px-8 py-24 space-y-1">
-              {NAV.map((item) =>
+              {NAV_ITEMS.map((item) =>
                 item.children ? (
                   <div key={item.name} className="w-full">
                     <button

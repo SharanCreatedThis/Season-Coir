@@ -55,8 +55,10 @@ const STEPS = [
 ];
 
 // ─── Background gradient stages ───────────────────────────────────────────────
-// Each stage is a full CSS gradient string for the background panel.
-// We crossfade between them using opacity layers driven by scroll progress.
+// Background color transition: warm gold-green at step 0 → dark emerald at step 4.
+// Creates a visual narrative of "golden hour to nightfall" across the manufacturing journey.
+// Each stage is a full CSS gradient string rendered as an absolutely-positioned layer.
+// Stages crossfade via Framer Motion animate={{ opacity }} — 1.4s ease per transition.
 const BG_STAGES = [
   // Step 01 — warm golden-green, Kerala golden hour
   "linear-gradient(160deg, #1a3320 0%, #22401a 35%, #1c3218 65%, #0f2214 100%)",
@@ -197,7 +199,15 @@ export default function JourneySection() {
         </div>
 
         {/* ── Top progress rail ─────────────────────────────────────────── */}
-        <div className="relative w-full h-[2px] shrink-0 z-20" style={{ background: "rgba(212,175,55,0.07)" }}>
+        <div
+          className="relative w-full h-[2px] shrink-0 z-20"
+          style={{ background: "rgba(212,175,55,0.07)" }}
+          role="progressbar"
+          aria-label="Manufacturing process progress"
+          aria-valuenow={active + 1}
+          aria-valuemin={1}
+          aria-valuemax={STEPS.length}
+        >
           <motion.div
             className="absolute left-0 top-0 h-full origin-left"
             style={{

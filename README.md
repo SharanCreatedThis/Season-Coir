@@ -1,6 +1,6 @@
 # Season Coir — Official Website
 
-Premium eco-luxury marketing website for **Season Coir Exports**, a B2B coir mat manufacturer and exporter from Alleppey, Kerala, established in 1980.
+Premium eco-luxury **multi-page marketing website** for **Season Coir Exports**, a B2B coir mat manufacturer and exporter from Alleppey, Kerala, established in 1980.
 
 **Live site → [seasoncoir.vercel.app](https://seasoncoir.vercel.app)**
 
@@ -16,7 +16,6 @@ Premium eco-luxury marketing website for **Season Coir Exports**, a B2B coir mat
 | Language | TypeScript |
 | Styling | Tailwind CSS v4 |
 | Animation | Framer Motion |
-| 3D | React Three Fiber + Three.js |
 | Analytics | Vercel Speed Insights |
 | Deployment | Vercel |
 
@@ -25,7 +24,6 @@ Premium eco-luxury marketing website for **Season Coir Exports**, a B2B coir mat
 ## Features
 
 - **Scrollytelling hero** — CSS-first instant-appear animations with scroll-linked Framer Motion transforms
-- **3D coconut scene** — interactive Three.js / React Three Fiber model in the hero
 - **Product catalogue** — 21 products across 5 categories with animated filter tabs
 - **Manufacturing journey** — immersive scroll-tracked process timeline with glowing progress line
 - **Global exports** — six partner country cards with staggered reveal
@@ -77,18 +75,25 @@ Or connect the repository to a Vercel project for automatic preview and producti
 ```
 src/
 ├── app/
-│   ├── page.tsx          # Home page — all homepage sections composed here
-│   ├── layout.tsx        # Root layout (fonts, metadata, Navbar, Footer)
-│   └── globals.css       # Tailwind v4 theme tokens + global keyframe animations
+│   ├── page.tsx              # Homepage
+│   ├── layout.tsx            # Root layout (fonts, metadata, Navbar, Footer, SpeedInsights)
+│   ├── globals.css           # Tailwind v4 theme tokens + global keyframe animations
+│   └── opengraph-image.tsx   # Dynamic OG image generation
 ├── components/
 │   ├── layout/
-│   │   ├── Navbar.tsx            # Fixed top nav with dropdown menus + mobile overlay
-│   │   └── Footer.tsx            # Site footer with links and contact details
-│   ├── JourneySection.tsx        # Scroll-pinned manufacturing process timeline
-│   └── CoconutScrollEffect.tsx   # Three.js / R3F 3D coconut hero component
+│   │   ├── Navbar.tsx        # Fixed top nav with dropdown menus + mobile overlay
+│   │   └── Footer.tsx        # Site footer with links and contact details
+│   └── JourneySection.tsx    # Scroll-pinned manufacturing process timeline
 └── data/
-    └── index.ts          # All static data: products, features, testimonials, export markets
+    └── index.ts              # All static data: products, features, nav, testimonials, export markets
 ```
+
+---
+
+## Documentation
+
+- [Architecture](./docs/ARCHITECTURE.md) — component structure, scroll system, data flow
+- [Roadmap](./docs/ROADMAP.md) — completed features and planned work
 
 ---
 
