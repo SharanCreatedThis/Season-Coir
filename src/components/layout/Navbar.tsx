@@ -124,7 +124,7 @@ export default function Navbar() {
 
           {/* CTA */}
           <Link
-            href="/#contact"
+            href="/contact"
             className={`ml-2 inline-flex items-center px-6 py-[10px] rounded-full text-[13px] font-semibold tracking-[0.06em] transition-all duration-300 ${
               solid
                 ? "bg-forest-dark text-coconut-cream hover:bg-forest-green shadow-[0_2px_16px_rgba(15,38,28,0.22)] hover:scale-[1.03]"
@@ -202,7 +202,7 @@ export default function Navbar() {
                 )
               )}
               <Link
-                href="/#contact"
+                href="/contact"
                 onClick={() => setMobileOpen(false)}
                 className="block w-full mt-10 text-center bg-forest-dark text-coconut-cream px-10 py-4 rounded-full font-semibold text-base tracking-[0.06em] hover:bg-forest-green transition-colors"
               >

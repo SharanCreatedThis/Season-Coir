@@ -275,27 +275,26 @@ export type NavItem  = { name: string; href: string; children?: NavChild[] };
 export const NAV_ITEMS: NavItem[] = [
   { name: "Home", href: "/" },
   {
-    name: "About",
-    href: "/about",
+    name: "About Us",
+    href: "/about/our-story",
     children: [
-      { name: "Our Story",       href: "/about#story"   },
-      { name: "Our Process",     href: "/about#process" },
-      { name: "Why Season Coir", href: "/about#why"     },
+      { name: "Our Story",           href: "/about/our-story"   },
+      { name: "Milestones",          href: "/about/milestones"  },
+      { name: "Leadership Team",     href: "/about/leadership"  },
+      { name: "Our Process",         href: "/about/process"     },
+      { name: "How We Are Different?", href: "/about/difference" },
     ],
   },
+  { name: "Products", href: "/products" },
   {
-    name: "Products",
-    href: "/#products",
+    name: "Gallery",
+    href: "/gallery/photos",
     children: [
-      { name: "PVC / Vinyl Coir Tufted", href: "/#products" },
-      { name: "Rubber Backed Coir",      href: "/#products" },
-      { name: "100% Rubber Mats",        href: "/#products" },
-      { name: "100% Coir Mats",          href: "/#products" },
-      { name: "Polypropylene Mats",      href: "/#products" },
-      { name: "View All",                href: "/#products" },
+      { name: "Photos", href: "/gallery/photos" },
+      { name: "Videos", href: "/gallery/videos" },
     ],
   },
-  { name: "Gallery", href: "/gallery" },
+  { name: "Contact Us", href: "/contact" },
 ];
 
 // ─── Export markets ───────────────────────────────────────────────────────────

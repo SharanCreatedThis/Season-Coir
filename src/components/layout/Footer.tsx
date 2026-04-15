@@ -9,17 +9,19 @@ import { MapPin, Mail, Phone, ArrowUpRight } from "lucide-react";
 
 const LINKS = {
   Company: [
-    { name: "Our Story",    href: "/about#story" },
-    { name: "Our Process",  href: "/about#process" },
-    { name: "Why Us",       href: "/about#why" },
-    { name: "Gallery",      href: "/gallery" },
+    { name: "Our Story",       href: "/about/our-story"  },
+    { name: "Milestones",      href: "/about/milestones" },
+    { name: "Our Process",     href: "/about/process"    },
+    { name: "How We're Different", href: "/about/difference" },
+    { name: "Photo Gallery",   href: "/gallery/photos"   },
+    { name: "Contact Us",      href: "/contact"          },
   ],
   Products: [
-    { name: "PVC / Vinyl Coir Tufted", href: "/#products" },
-    { name: "Rubber Backed Coir",      href: "/#products" },
-    { name: "100% Rubber Mats",        href: "/#products" },
-    { name: "100% Coir Mats",          href: "/#products" },
-    { name: "Polypropylene Mats",      href: "/#products" },
+    { name: "PVC / Vinyl Coir Tufted", href: "/products" },
+    { name: "Rubber Backed Coir",      href: "/products" },
+    { name: "100% Rubber Mats",        href: "/products" },
+    { name: "100% Coir Mats",          href: "/products" },
+    { name: "Polypropylene Mats",      href: "/products" },
   ],
 };
 
