@@ -5,7 +5,7 @@ describe('Navigation', () => {
   it('should have all required nav items', () => {
     const navNames = NAV_ITEMS.map(item => item.name);
     expect(navNames).toContain('Home');
-    expect(navNames).toContain('About');
+    expect(navNames).toContain('About Us');
     expect(NAV_ITEMS.length).toBeGreaterThanOrEqual(4);
   });
 

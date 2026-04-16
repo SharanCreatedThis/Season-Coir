@@ -119,16 +119,17 @@ describe('whySeasonCoirFeatures', () => {
 
 // ─── Navigation ────────────────────────────────────────────────────────────────
 describe('NAV_ITEMS', () => {
-  it('should have exactly 4 top-level items', () => {
-    expect(NAV_ITEMS.length).toBe(4);
+  it('should have exactly 5 top-level items', () => {
+    expect(NAV_ITEMS.length).toBe(5);
   });
 
-  it('should contain Home, About, Products, and Gallery', () => {
+  it('should contain Home, About Us, Products, Gallery, and Contact Us', () => {
     const names = NAV_ITEMS.map((n) => n.name);
     expect(names).toContain('Home');
-    expect(names).toContain('About');
+    expect(names).toContain('About Us');
     expect(names).toContain('Products');
     expect(names).toContain('Gallery');
+    expect(names).toContain('Contact Us');
   });
 
   it('all top-level hrefs should be valid paths', () => {
@@ -138,18 +139,18 @@ describe('NAV_ITEMS', () => {
     });
   });
 
-  it('About should have 3 dropdown children with valid hrefs', () => {
-    const about = NAV_ITEMS.find((n) => n.name === 'About');
-    expect(about?.children?.length).toBe(3);
+  it('About Us should have 5 dropdown children with valid hrefs', () => {
+    const about = NAV_ITEMS.find((n) => n.name === 'About Us');
+    expect(about?.children?.length).toBe(5);
     about?.children?.forEach((child) => {
       expect(child.name).toBeTruthy();
       expect(child.href.startsWith('/')).toBe(true);
     });
   });
 
-  it('Products should have 6 dropdown children', () => {
-    const products = NAV_ITEMS.find((n) => n.name === 'Products');
-    expect(products?.children?.length).toBe(6);
+  it('Gallery should have 2 dropdown children', () => {
+    const gallery = NAV_ITEMS.find((n) => n.name === 'Gallery');
+    expect(gallery?.children?.length).toBe(2);
   });
 
   it('all dropdown children should have name and href', () => {
