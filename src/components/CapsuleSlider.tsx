@@ -14,7 +14,7 @@ export function CapsuleSlider<T>({ items, renderItem, height = 450, cardWidth = 
   const [index, setIndex] = useState(0);
   const total = items.length;
 
-  const handleDragEnd = (e: any, info: PanInfo) => {
+  const handleDragEnd = (_e: unknown, info: PanInfo) => {
     if (info.offset.x < -40) {
       setIndex((i) => (i + 1) % total);
     } else if (info.offset.x > 40) {

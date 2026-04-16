@@ -147,7 +147,7 @@ export default function MilestonesPage() {
   );
 }
 
-function TimelineLine({ count }: { count: number }) {
+function TimelineLine({ count: _count }: { count: number }) {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start 80%", "end 20%"] });
   const scaleY = useTransform(scrollYProgress, [0, 1], [0, 1]);
