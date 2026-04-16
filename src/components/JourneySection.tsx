@@ -238,8 +238,8 @@ export default function JourneySection() {
         {/* ── Main content area ─────────────────────────────────────────── */}
         <div className="flex flex-1 min-h-0 relative z-10">
 
-          {/* ── LEFT: Image panel ─────────────────────────────────── */}
-          <div className="relative w-[52%] h-full overflow-hidden">
+          {/* ── LEFT / BACK: Image panel ─────────────────────────────────── */}
+          <div className="absolute inset-0 lg:relative lg:w-[52%] h-full overflow-hidden z-0">
             <AnimatePresence mode="sync">
               {STEPS.map((step, i) => (
                 active === i && (
@@ -272,7 +272,7 @@ export default function JourneySection() {
             </AnimatePresence>
 
             {/* Section label */}
-            <div className="absolute top-10 left-10 z-10 flex items-center gap-3">
+            <div className="absolute top-8 left-6 lg:top-10 lg:left-10 z-10 flex items-center gap-3">
               <div className="w-5 h-px" style={{ background: "rgba(212,175,55,0.55)" }} />
               <span style={{ fontSize: "0.6rem", letterSpacing: "0.5em", color: "rgba(212,175,55,0.55)" }} className="font-bold uppercase">
                 Manufacturing Process
@@ -280,7 +280,7 @@ export default function JourneySection() {
             </div>
 
             {/* "The Journey" wordmark */}
-            <div className="absolute bottom-10 left-10 z-10">
+            <div className="hidden lg:block absolute bottom-10 left-10 z-10">
               <h2
                 className="font-serif font-bold leading-[0.88]"
                 style={{
@@ -300,8 +300,8 @@ export default function JourneySection() {
             </div>
           </div>
 
-          {/* ── DIVIDER: scroll-tracked glowing vertical line ─────── */}
-          <div className="relative w-[2px] shrink-0 self-stretch overflow-visible" style={{ zIndex: 20 }}>
+          {/* ── DIVIDER: scroll-tracked glowing vertical line (desktop only) ─────── */}
+          <div className="hidden lg:block relative w-[2px] shrink-0 self-stretch overflow-visible z-20">
             <div className="absolute inset-0 w-full" style={{ background: "rgba(212,175,55,0.06)" }} />
             <motion.div
               className="absolute top-0 left-0 w-full origin-top"
@@ -322,15 +322,18 @@ export default function JourneySection() {
             </motion.div>
           </div>
 
-          {/* ── RIGHT: Text content panel ─────────────────────────── */}
-          <div className="flex-1 h-full flex flex-col justify-center px-14 lg:px-20 relative overflow-hidden">
+          {/* ── RIGHT / FRONT: Text content panel ─────────────────────────── */}
+          <div className="flex-1 h-full flex flex-col justify-end lg:justify-center px-6 pb-20 lg:pb-0 lg:px-20 relative overflow-hidden z-10">
+            {/* Mobile dark vignette for text readability */}
+            <div className="absolute inset-x-0 bottom-0 top-1/3 lg:hidden pointer-events-none" style={{ background: "linear-gradient(to bottom, transparent, rgba(10,26,16,0.92) 50%, rgba(10,26,16,0.98) 100%)" }} />
+
 
             {/* Giant watermark step number */}
             <AnimatePresence mode="wait">
               <motion.div
                 key={`wm-${active}`}
-                className="absolute right-6 bottom-4 font-serif font-bold select-none pointer-events-none leading-none"
-                style={{ fontSize: "clamp(9rem, 17vw, 17rem)", color: "rgba(212,175,55,0.04)" }}
+                className="absolute right-6 lg:right-6 bottom-32 lg:bottom-4 font-serif font-bold select-none pointer-events-none leading-none z-0"
+                style={{ fontSize: "clamp(6rem, 17vw, 17rem)", color: "rgba(212,175,55,0.03)" }}
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -30 }}
@@ -342,7 +345,7 @@ export default function JourneySection() {
 
             {/* Subtle top-right radial bloom — changes warmth per step */}
             <motion.div
-              className="absolute top-0 right-0 w-80 h-80 rounded-full pointer-events-none"
+              className="hidden lg:block absolute top-0 right-0 w-80 h-80 rounded-full pointer-events-none z-0"
               style={{
                 background: "radial-gradient(circle, rgba(212,175,55,0.05) 0%, transparent 70%)",
                 filter: "blur(40px)",
@@ -351,8 +354,11 @@ export default function JourneySection() {
               transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
             />
 
-            {/* Step counter */}
-            <div className="flex items-center gap-3 mb-10">
+            {/* content wrapper to lift above mobile dark gradient */}
+            <div className="relative z-10 w-full mb-8 lg:mb-0">
+
+              {/* Step counter */}
+              <div className="flex items-center gap-3 mb-6 lg:mb-10">
               <AnimatePresence mode="wait">
                 <motion.span
                   key={`num-${active}`}
@@ -405,7 +411,7 @@ export default function JourneySection() {
                   key={`title-${active}`}
                   className="font-serif font-bold"
                   style={{
-                    fontSize: "clamp(2.4rem, 3.8vw, 3.8rem)",
+                    fontSize: "clamp(2.1rem, 7vw, 3.8rem)",
                     lineHeight: 1.02,
                     letterSpacing: "-0.025em",
                     color: "rgba(245,240,232,0.95)",
@@ -483,9 +489,10 @@ export default function JourneySection() {
                 )}
               </AnimatePresence>
             </div>
+            </div>
 
             {/* Step dots */}
-            <div className="absolute bottom-10 right-14 flex flex-col gap-2.5">
+            <div className="absolute bottom-10 right-6 lg:right-14 flex lg:flex-col gap-2.5 z-20">
               {STEPS.map((_, i) => (
                 <motion.div
                   key={i}

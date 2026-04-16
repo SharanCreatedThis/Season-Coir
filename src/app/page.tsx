@@ -21,6 +21,7 @@ import {
 } from "@/data";
 import type { Category } from "@/data";
 import JourneySection from "@/components/JourneySection";
+import { CapsuleSlider } from "@/components/CapsuleSlider";
 
 // ─── Count-up ─────────────────────────────────────────────────────────────────
 function CountUp({ target, duration = 1800 }: { target: string; duration?: number }) {
@@ -161,7 +162,7 @@ export default function Home() {
         {/* ── Layer 3: Hero text content — left-aligned editorial ── */}
         <motion.div
           style={{ opacity: heroOpacity, y: heroY }}
-          className="relative z-10 w-full max-w-7xl mx-auto px-8 md:px-14 pb-24 md:pb-28"
+          className="relative z-10 w-full max-w-7xl mx-auto px-6 sm:px-8 md:px-14 pb-24 md:pb-28"
         >
           {/* Eyebrow */}
           <div className="hero-instant hero-instant-1 mb-8 flex items-center gap-4">
@@ -184,7 +185,7 @@ export default function Home() {
               <span
                 className="hero-clip hero-clip-1 block"
                 style={{
-                  fontSize: "clamp(3.4rem, 7.5vw, 7rem)",
+                  fontSize: "clamp(2.8rem, 8vw, 7rem)",
                   letterSpacing: "-0.03em",
                   textShadow: "0 4px 40px rgba(15,38,28,0.6)",
                 }}
@@ -197,7 +198,7 @@ export default function Home() {
               <span
                 className="hero-clip hero-clip-2 block"
                 style={{
-                  fontSize: "clamp(3.4rem, 7.5vw, 7rem)",
+                  fontSize: "clamp(2.8rem, 8vw, 7rem)",
                   letterSpacing: "-0.03em",
                   fontStyle: "italic",
                   color: "#D4AF37",
@@ -211,7 +212,7 @@ export default function Home() {
 
           {/* Subheading */}
           <p
-            className="hero-instant hero-instant-3 mb-12"
+            className="hero-instant hero-instant-3 mb-12 hidden md:block"
             style={{
               fontSize: "clamp(0.9rem, 1.3vw, 1.05rem)",
               lineHeight: 1.75,
@@ -226,7 +227,7 @@ export default function Home() {
           </p>
 
           {/* Buttons */}
-          <div className="hero-instant hero-instant-4 flex items-center gap-5 flex-wrap">
+          <div className="hero-instant hero-instant-4 flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-5">
             {/* Primary — gold fill */}
             <motion.a
               href="#products"
@@ -263,6 +264,7 @@ export default function Home() {
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
               transition={{ duration: 0.25, ease: "easeOut" }}
+              className="hidden sm:block"
             >
               <Link
                 href="/about"
@@ -322,7 +324,7 @@ export default function Home() {
         <motion.div
           initial={{ opacity: 0 }} animate={{ opacity: 1 }}
           transition={{ delay: 2.0, duration: 1.2 }}
-          className="absolute bottom-9 left-8 md:left-14 z-10 flex items-center gap-1.5"
+          className="hidden md:flex absolute bottom-9 left-8 md:left-14 z-10 items-center gap-1.5"
         >
           <MapPin size={9} style={{ color: "rgba(212,175,55,0.35)" }} />
           <span style={{ fontSize: 9, letterSpacing: "0.22em", color: "rgba(255,255,255,0.2)" }} className="uppercase font-medium">8.8932° N, 76.6141° E</span>
@@ -331,7 +333,7 @@ export default function Home() {
         <motion.div
           initial={{ opacity: 0 }} animate={{ opacity: 1 }}
           transition={{ delay: 2.0, duration: 1.2 }}
-          className="absolute bottom-9 right-8 md:right-14 z-10"
+          className="hidden md:block absolute bottom-9 right-8 md:right-14 z-10"
         >
           <span style={{ fontSize: 9, letterSpacing: "0.3em", color: "rgba(255,255,255,0.16)" }} className="uppercase font-medium">Est. MCMLXXX</span>
         </motion.div>
@@ -358,7 +360,7 @@ export default function Home() {
         {/* Top rule */}
         <div className="h-px w-full bg-gradient-to-r from-transparent via-kerala-gold/30 to-transparent" />
 
-        <div className="max-w-7xl mx-auto px-6 pt-28 pb-32 relative z-10">
+        <div className="max-w-7xl mx-auto px-6 pt-16 md:pt-28 pb-20 md:pb-32 relative z-10">
 
           {/* ── Section header ── */}
           <motion.div
@@ -380,7 +382,7 @@ export default function Home() {
             <div className="pb-[0.3em]">
               <h2
                 className="font-serif font-bold text-forest-dark leading-[0.92]"
-                style={{ fontSize: "clamp(3.2rem, 7vw, 6rem)", letterSpacing: "-0.025em" }}
+                style={{ fontSize: "clamp(2.5rem, 8vw, 6rem)", letterSpacing: "-0.025em" }}
               >
                 Sustainable
                 <em className="not-italic text-kerala-gold"> Luxury</em>
@@ -398,7 +400,50 @@ export default function Home() {
           </motion.div>
 
           {/* ── Feature cards ── */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-px bg-forest-dark/[0.06] rounded-3xl overflow-hidden shadow-[0_4px_60px_rgba(15,38,28,0.07)]">
+          {/* Mobile 3D Capsule Slider */}
+          <div className="block md:hidden mt-8 -mx-6">
+            <CapsuleSlider 
+              items={whySeasonCoirFeatures}
+              height={420}
+              cardWidth="280px"
+              renderItem={(feature, isActive, index) => (
+                <div className="w-full h-full relative bg-coconut-cream cursor-pointer flex flex-col rounded-3xl overflow-hidden shadow-lg border border-forest-dark/[0.06]">
+                  {/* Image */}
+                  <div className="relative h-48 overflow-hidden shrink-0">
+                    <Image
+                      src={feature.image}
+                      alt={feature.title}
+                      fill
+                      sizes="280px"
+                      className="object-cover opacity-85 transition-all duration-700 pointer-events-none"
+                    />
+                    <div className="absolute inset-0 pointer-events-none" style={{ background: "linear-gradient(to top, rgba(245,240,232,0.9) 0%, transparent 55%)" }} />
+                    <span
+                      className="absolute top-4 right-5 font-serif font-bold text-forest-dark/10 select-none leading-none pointer-events-none"
+                      style={{ fontSize: "4rem", lineHeight: 1 }}
+                      aria-hidden
+                    >
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                  </div>
+
+                  {/* Text body */}
+                  <div className="px-8 pt-5 pb-8 flex flex-col flex-1">
+                    <h3 className="font-serif font-bold text-forest-dark mb-3 leading-tight" style={{ fontSize: "1.15rem", letterSpacing: "-0.01em" }}>
+                      {feature.title}
+                    </h3>
+                    <div className={"w-8 h-[1.5px] mb-4 transition-all duration-500 " + (isActive ? "w-14 bg-kerala-gold" : "bg-kerala-gold/50")} />
+                    <p className="text-forest-dark/50 leading-relaxed" style={{ fontSize: "0.875rem", letterSpacing: "0.005em" }}>
+                      {feature.desc}
+                    </p>
+                  </div>
+                </div>
+              )}
+            />
+          </div>
+
+          {/* Desktop Grid */}
+          <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-forest-dark/[0.06] rounded-3xl overflow-hidden shadow-[0_4px_60px_rgba(15,38,28,0.07)]">
             {whySeasonCoirFeatures.map((feature, i) => (
               <motion.article
                 key={i}
@@ -472,7 +517,7 @@ export default function Home() {
         {/* Radial vignette */}
         <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 80% 55% at 50% 0%, rgba(212,175,55,0.05) 0%, transparent 70%)" }} />
 
-        <div className="max-w-7xl mx-auto px-6 pt-28 pb-36 relative z-10">
+        <div className="max-w-7xl mx-auto px-6 pt-16 md:pt-28 pb-20 md:pb-36 relative z-10">
 
           {/* ── Header ── */}
           <motion.div
@@ -492,7 +537,7 @@ export default function Home() {
               <div className="pb-[0.3em]">
                 <h2
                   className="font-serif font-bold text-forest-dark leading-[0.92]"
-                  style={{ fontSize: "clamp(3rem, 6.5vw, 5.5rem)", letterSpacing: "-0.025em" }}
+                  style={{ fontSize: "clamp(2.5rem, 8vw, 5.5rem)", letterSpacing: "-0.025em" }}
                 >
                   Product
                   <em className="not-italic text-kerala-gold"> Catalogue</em>
@@ -511,13 +556,13 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="flex flex-wrap gap-2 mb-12"
+            className="flex overflow-x-auto whitespace-nowrap scrollbar-hide flex-nowrap md:flex-wrap gap-2 mb-12 pb-2 md:pb-0"
           >
             {CATEGORIES.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
-                className={`relative px-5 py-2.5 text-[11px] font-semibold tracking-[0.12em] uppercase transition-all duration-300 rounded-full border ${
+                className={`shrink-0 relative px-5 py-2.5 text-[11px] font-semibold tracking-[0.12em] uppercase transition-all duration-300 rounded-full border ${
                   activeCategory === cat
                     ? "bg-forest-dark text-coconut-cream border-forest-dark shadow-[0_4px_20px_rgba(15,38,28,0.18)]"
                     : "bg-white border-forest-dark/10 text-forest-dark/50 hover:border-forest-dark/30 hover:text-forest-dark"
@@ -529,7 +574,64 @@ export default function Home() {
           </motion.div>
 
           {/* ── Product grid ── */}
-          <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+          {/* Mobile 3D Capsule Slider */}
+          <div className="block sm:hidden mt-8 -mx-6">
+            <CapsuleSlider 
+              items={filtered}
+              height={450}
+              cardWidth="280px"
+              renderItem={(product) => (
+                <div className="w-full h-full relative rounded-2xl overflow-hidden cursor-pointer bg-white border border-forest-dark/[0.07] shadow-lg">
+                  {/* Image */}
+                  <div className="relative h-52 overflow-hidden bg-coconut-cream">
+                    <Image
+                      src={product.image}
+                      alt={product.name}
+                      fill
+                      sizes="280px"
+                      className="object-cover opacity-90 transition-all duration-700 pointer-events-none"
+                    />
+                    <div className="absolute inset-0 pointer-events-none" style={{ background: "linear-gradient(to bottom, rgba(15,38,28,0.3) 0%, transparent 50%)" }} />
+                    <div className="absolute top-3 left-3 pointer-events-none">
+                      <span
+                        className="px-2.5 py-1 text-[9px] font-bold tracking-[0.18em] uppercase rounded-full backdrop-blur-sm"
+                        style={{ background: "rgba(15,38,28,0.72)", color: "var(--color-coconut-cream)" }}
+                      >
+                        {product.category}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Body */}
+                  <div className="p-5 flex flex-col justify-between" style={{ height: "calc(100% - 13rem)" }}>
+                    <div>
+                      <h3 className="font-serif font-bold text-forest-dark leading-snug mb-2" style={{ fontSize: "1rem", letterSpacing: "-0.01em" }}>
+                        {product.name}
+                      </h3>
+                      <p className="text-forest-dark/45 leading-relaxed mb-4" style={{ fontSize: "0.8rem", display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
+                        {product.description}
+                      </p>
+                    </div>
+                    {/* Tags */}
+                    <div className="flex flex-wrap gap-1.5">
+                      {product.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="px-2 py-0.5 rounded-full font-semibold"
+                          style={{ fontSize: "0.65rem", letterSpacing: "0.06em", background: "rgba(15,38,28,0.05)", color: "rgba(15,38,28,0.5)", border: "1px solid rgba(15,38,28,0.10)" }}
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+            />
+          </div>
+
+          {/* Desktop Grid */}
+          <motion.div layout className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
             <AnimatePresence mode="popLayout">
               {filtered.map((product, i) => (
                 <motion.div
@@ -552,7 +654,7 @@ export default function Home() {
                       className="object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"
                     />
                     {/* Subtle gradient for badge readability */}
-                    <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(15,38,28,0.3) 0%, transparent 50%)" }} />
+                    <div className="absolute inset-0 px-6 sm:px-0" style={{ background: "linear-gradient(to bottom, rgba(15,38,28,0.3) 0%, transparent 50%)" }} />
                     {/* Category badge */}
                     <div className="absolute top-3 left-3">
                       <span
@@ -619,7 +721,7 @@ export default function Home() {
       </section>
 
       {/* ── 6. SUSTAINABILITY STATS ───────────────────────────────────────────── */}
-      <section className="py-28 bg-forest-dark text-white relative overflow-hidden">
+      <section className="py-16 md:py-28 bg-forest-dark text-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-5">
           <div className="absolute top-0 left-0 w-96 h-96 rounded-full bg-kerala-gold blur-[120px]" />
           <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full bg-kerala-gold blur-[120px]" />
@@ -629,12 +731,12 @@ export default function Home() {
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mb-20"
+            className="text-center mb-16 md:mb-20"
           >
             <span className="text-kerala-gold text-[10px] font-bold tracking-[0.55em] uppercase mb-4 block">By the Numbers</span>
-            <h2 className="font-serif font-bold text-5xl md:text-6xl text-coconut-cream">Four decades of impact</h2>
+            <h2 className="font-serif font-bold text-4xl md:text-5xl lg:text-6xl text-coconut-cream">Four decades of impact</h2>
           </motion.div>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-10">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-4 gap-y-12 md:gap-8 lg:gap-10">
             {sustainabilityStats.map((stat, i) => (
               <motion.div
                 key={i}
@@ -644,7 +746,7 @@ export default function Home() {
                 transition={{ delay: i * 0.1 }}
                 className="text-center"
               >
-                <h4 className="font-serif text-5xl lg:text-6xl text-kerala-gold font-bold mb-3">
+                <h4 className="font-serif text-4xl md:text-5xl lg:text-6xl text-kerala-gold font-bold mb-3">
                   <CountUp target={stat.value} />
                 </h4>
                 <p className="text-xs uppercase tracking-widest text-coconut-cream/40 leading-relaxed">{stat.label}</p>
@@ -660,7 +762,7 @@ export default function Home() {
         <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: "repeating-linear-gradient(90deg,transparent,transparent 119px,rgba(15,38,28,0.018) 120px)" }} />
         <div className="h-px w-full bg-gradient-to-r from-transparent via-kerala-gold/30 to-transparent" />
 
-        <div className="max-w-7xl mx-auto px-6 pt-28 pb-32 relative z-10">
+        <div className="max-w-7xl mx-auto px-6 pt-16 md:pt-28 pb-20 md:pb-32 relative z-10">
 
           {/* ── Header ── */}
           <motion.div
@@ -680,7 +782,7 @@ export default function Home() {
               <div className="pb-[0.3em]">
                 <h2
                   className="font-serif font-bold text-forest-dark leading-[0.92]"
-                  style={{ fontSize: "clamp(3rem, 6.5vw, 5.5rem)", letterSpacing: "-0.025em" }}
+                  style={{ fontSize: "clamp(2.5rem, 8vw, 5.5rem)", letterSpacing: "-0.025em" }}
                 >
                   Exported
                   <em className="not-italic text-kerala-gold"> Globally</em>
@@ -694,7 +796,53 @@ export default function Home() {
           </motion.div>
 
           {/* ── Country cards ── */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-forest-dark/[0.07] rounded-3xl overflow-hidden shadow-[0_4px_60px_rgba(15,38,28,0.06)]">
+          {/* ── Country cards ── */}
+          {/* Mobile 3D Capsule Slider */}
+          <div className="block md:hidden mt-8 -mx-6">
+            <CapsuleSlider 
+              items={exportMarkets}
+              height={180}
+              cardWidth="280px"
+              renderItem={(market, isActive, index) => (
+                <div className="w-full h-full relative bg-coconut-cream cursor-pointer rounded-3xl overflow-hidden shadow-lg border border-forest-dark/[0.06] flex items-center">
+                  <div className={"absolute top-0 left-0 right-0 h-[2px] transition-all duration-500 " + (isActive ? "bg-kerala-gold" : "bg-transparent")} />
+                  
+                  <div className="px-8 py-6 flex items-center gap-6 w-full">
+                    {/* Flag + index column */}
+                    <div className="flex flex-col items-center gap-2 shrink-0">
+                      <span className="text-4xl leading-none">{market.flag}</span>
+                      <span
+                        className={"font-serif font-bold select-none transition-colors duration-500 " + (isActive ? "text-kerala-gold/15" : "text-forest-dark/[0.07]")}
+                        style={{ fontSize: "2rem", lineHeight: 1 }}
+                        aria-hidden
+                      >
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                    </div>
+
+                    {/* Divider */}
+                    <div className={"w-px self-stretch transition-colors duration-500 " + (isActive ? "bg-kerala-gold/20" : "bg-forest-dark/[0.07]")} />
+
+                    {/* Text */}
+                    <div>
+                      <p className="font-serif font-bold text-forest-dark leading-tight mb-1" style={{ fontSize: "1.1rem", letterSpacing: "-0.01em" }}>
+                        {market.country}
+                      </p>
+                      <div className="flex items-center gap-2 mt-2">
+                        <div className={"h-[1.5px] transition-all duration-500 " + (isActive ? "w-7 bg-kerala-gold" : "w-4 bg-kerala-gold/50")} />
+                        <p className="text-forest-dark/40 font-medium uppercase" style={{ fontSize: "0.68rem", letterSpacing: "0.14em" }}>
+                          Partner since {market.since}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            />
+          </div>
+
+          {/* Desktop Grid */}
+          <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-forest-dark/[0.07] rounded-3xl overflow-hidden shadow-[0_4px_60px_rgba(15,38,28,0.06)]">
             {exportMarkets.map((market, i) => (
               <motion.div
                 key={market.country}
@@ -749,7 +897,7 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: 0.35 }}
-            className="mt-10 rounded-2xl px-10 py-7 flex flex-col sm:flex-row items-center justify-between gap-6"
+            className="mt-10 rounded-2xl px-8 py-8 md:px-10 md:py-7 flex flex-col md:flex-row items-start md:items-center justify-between gap-6"
             style={{ background: "linear-gradient(135deg, var(--color-forest-dark) 0%, var(--color-forest-green) 100%)" }}
           >
             <div>
@@ -775,7 +923,7 @@ export default function Home() {
       </section>
 
       {/* ── 8. TESTIMONIALS ──────────────────────────────────────────────────── */}
-      <section className="py-24 bg-forest-dark text-white px-6 overflow-hidden">
+      <section className="py-16 md:py-24 bg-forest-dark text-white px-6 overflow-hidden">
         <div className="max-w-3xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
@@ -784,7 +932,7 @@ export default function Home() {
             className="mb-12"
           >
             <span className="text-kerala-gold text-[10px] font-bold tracking-[0.55em] uppercase mb-4 block">From Our Partners</span>
-            <h2 className="font-serif font-bold text-4xl md:text-5xl text-coconut-cream">What they say</h2>
+            <h2 className="font-serif font-bold text-3xl md:text-5xl text-coconut-cream">What they say</h2>
           </motion.div>
 
           <AnimatePresence mode="wait">
@@ -818,9 +966,9 @@ export default function Home() {
       </section>
 
       {/* ── 9. ABOUT / OUR STORY ─────────────────────────────────────────────── */}
-      <section id="about" className="py-32 bg-coconut-cream px-6">
+      <section id="about" className="py-16 md:py-32 bg-coconut-cream px-6">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-16 items-center">
             <motion.div
               initial={{ opacity: 0, x: -32 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -828,7 +976,7 @@ export default function Home() {
               transition={{ duration: 0.7 }}
             >
               <span className="text-kerala-gold text-[10px] font-bold tracking-[0.55em] uppercase mb-5 block">Our Heritage</span>
-              <h2 className="font-serif font-bold text-5xl text-forest-dark mb-6 leading-tight">
+              <h2 className="font-serif font-bold text-4xl md:text-5xl text-forest-dark mb-6 leading-tight">
                 A family craft,<br />
                 <span className="text-kerala-gold italic">four decades</span> strong.
               </h2>
@@ -852,7 +1000,7 @@ export default function Home() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7 }}
-              className="relative h-[500px] rounded-3xl overflow-hidden"
+              className="relative h-[350px] md:h-[500px] rounded-3xl overflow-hidden"
             >
               <Image
                 src="/images/placeholders/img_process_weaving.png"
@@ -872,9 +1020,9 @@ export default function Home() {
       </section>
 
       {/* ── 10. CONTACT ──────────────────────────────────────────────────────── */}
-      <section id="contact" className="py-32 bg-forest-dark text-white px-6">
+      <section id="contact" className="py-20 md:py-32 bg-forest-dark text-white px-6">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-16">
 
             {/* Left: info */}
             <motion.div
@@ -884,7 +1032,7 @@ export default function Home() {
               transition={{ duration: 0.7 }}
             >
               <span className="text-kerala-gold text-[10px] font-bold tracking-[0.55em] uppercase mb-5 block">Get in Touch</span>
-              <h2 className="font-serif font-bold text-5xl text-coconut-cream mb-6 leading-tight">
+              <h2 className="font-serif font-bold text-4xl md:text-5xl text-coconut-cream mb-6 leading-tight">
                 Let&apos;s build something<br />
                 <span className="text-kerala-gold italic">beautiful together.</span>
               </h2>

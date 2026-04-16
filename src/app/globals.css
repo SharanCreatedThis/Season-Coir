@@ -55,6 +55,15 @@ body {
 .hero-clip-1 { animation-delay: 0.1s; }
 .hero-clip-2 { animation-delay: 0.25s; }
 
-::-webkit-scrollbar       { width: 5px; }
+::-webkit-scrollbar       { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track { background: #0F261C; }
 ::-webkit-scrollbar-thumb { background: #D4AF37; border-radius: 3px; }
+
+/* Utility to hide scrollbars on specific containers */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
