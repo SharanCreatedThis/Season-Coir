@@ -248,7 +248,7 @@ export default function ProductsPage() {
   return (
     <main className="bg-coconut-cream overflow-hidden">
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
-      <section ref={heroRef} className="relative flex items-center justify-center min-h-[72vh] overflow-hidden">
+      <section ref={heroRef} className="relative flex items-center justify-center min-h-[72svh] overflow-hidden">
         <motion.div style={{ y: heroY }} className="absolute inset-0">
           <Image src="/images/placeholders/img_whyus_quality.png" alt="Season Coir Products" fill priority className="object-cover" />
           <div className="absolute inset-0 bg-gradient-to-b from-forest-dark/80 via-forest-dark/60 to-coconut-cream" />
@@ -418,7 +418,7 @@ function ProductModal({ product, onClose }: { product: Product; onClose: () => v
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: 20, scale: 0.97 }}
         transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-        className="relative bg-coconut-cream rounded-3xl overflow-hidden max-w-2xl w-full shadow-2xl max-h-[90vh] overflow-y-auto"
+        className="relative bg-coconut-cream rounded-3xl overflow-hidden max-w-2xl w-full shadow-2xl max-h-[90svh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close */}

@@ -88,7 +88,7 @@ export default function MilestonesPage() {
   return (
     <main className="bg-coconut-cream overflow-hidden">
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
-      <section ref={heroRef} className="relative flex items-center justify-center min-h-[80vh] overflow-hidden">
+      <section ref={heroRef} className="relative flex items-center justify-center min-h-[80svh] overflow-hidden">
         <motion.div style={{ y: heroY }} className="absolute inset-0">
           <Image
             src="/images/placeholders/hero_kerala_grove.png"

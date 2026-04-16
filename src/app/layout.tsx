@@ -46,7 +46,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(getLocalBusinessSchema()) }}
         />
       </head>
-      <body className="min-h-screen flex flex-col antialiased">
+      <body className="min-h-[100svh] supports-[min-height:100svh]:min-h-[100svh] flex flex-col antialiased pb-[env(safe-area-inset-bottom)]">
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />

@@ -75,7 +75,7 @@ export default function VideosPage() {
   return (
     <main className="bg-coconut-cream overflow-hidden">
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
-      <section ref={heroRef} className="relative flex items-center justify-center min-h-[65vh] overflow-hidden">
+      <section ref={heroRef} className="relative flex items-center justify-center min-h-[65svh] overflow-hidden">
         <motion.div style={{ y: heroY }} className="absolute inset-0">
           <Image src="/images/placeholders/img_process_defibering.png" alt="Video Gallery" fill priority className="object-cover" />
           <div className="absolute inset-0 bg-gradient-to-b from-forest-dark/80 via-forest-dark/60 to-coconut-cream" />

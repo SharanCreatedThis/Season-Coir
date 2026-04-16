@@ -156,7 +156,7 @@ export default function Navbar() {
             transition={{ duration: 0.22 }}
             className="lg:hidden fixed inset-0 z-40 bg-coconut-cream overflow-y-auto"
           >
-            <div className="flex flex-col items-start justify-center min-h-screen max-w-sm mx-auto px-8 py-24 space-y-1">
+            <div className="flex flex-col items-start justify-center min-h-[100svh] supports-[min-height:100svh]:min-h-[100svh] max-w-sm mx-auto px-8 py-24 space-y-1">
               {NAV_ITEMS.map((item) =>
                 item.children ? (
                   <div key={item.name} className="w-full">

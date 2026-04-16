@@ -49,7 +49,7 @@ export default function PhotosPage() {
   return (
     <main className="bg-coconut-cream overflow-hidden">
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
-      <section ref={heroRef} className="relative flex items-center justify-center min-h-[65vh] overflow-hidden">
+      <section ref={heroRef} className="relative flex items-center justify-center min-h-[65svh] overflow-hidden">
         <motion.div style={{ y: heroY }} className="absolute inset-0">
           <Image src="/images/placeholders/img_process_weaving.png" alt="Gallery" fill priority className="object-cover" />
           <div className="absolute inset-0 bg-gradient-to-b from-forest-dark/75 via-forest-dark/55 to-coconut-cream" />

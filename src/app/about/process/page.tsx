@@ -56,7 +56,7 @@ export default function ProcessPage() {
   return (
     <main className="bg-coconut-cream overflow-hidden">
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
-      <section ref={heroRef} className="relative flex items-center justify-center min-h-[88vh] overflow-hidden">
+      <section ref={heroRef} className="relative flex items-center justify-center min-h-[88svh] overflow-hidden">
         <motion.div style={{ y: heroY }} className="absolute inset-0">
           <Image
             src="/images/placeholders/img_process_weaving.png"

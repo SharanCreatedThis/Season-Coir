@@ -145,10 +145,10 @@ export default function JourneySection() {
     <section
       ref={containerRef}
       className="relative"
-      style={{ height: `${STEPS.length * 100}vh` }}
+      style={{ height: `${STEPS.length * 100}svh` }}
     >
       {/* ── Sticky viewport ─────────────────────────────────────────────── */}
-      <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col">
+      <div className="sticky top-0 h-[100svh] w-full overflow-hidden flex flex-col">
 
         {/* ── Storytelling background — crossfades between 5 gradient stages ── */}
         <div className="absolute inset-0 z-0">

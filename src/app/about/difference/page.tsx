@@ -76,7 +76,7 @@ export default function DifferencePage() {
   return (
     <main className="bg-coconut-cream overflow-hidden">
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
-      <section ref={heroRef} className="relative flex items-center justify-center min-h-[75vh] overflow-hidden">
+      <section ref={heroRef} className="relative flex items-center justify-center min-h-[75svh] overflow-hidden">
         <motion.div style={{ y: heroY }} className="absolute inset-0">
           <Image src="/images/placeholders/hero_kerala_grove.png" alt="What Sets Season Coir Apart" fill priority className="object-cover" />
           <div className="absolute inset-0 bg-gradient-to-b from-forest-dark/80 via-forest-dark/60 to-coconut-cream" />
