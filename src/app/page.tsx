@@ -105,7 +105,7 @@ export default function Home() {
       {/* ── 1. HERO ──────────────────────────────────────────────────────────── */}
       <section
         ref={heroRef}
-        className="relative w-full h-screen min-h-[720px] flex items-end overflow-hidden"
+        className="relative w-full h-[100svh] min-h-[550px] md:min-h-[720px] flex items-start pt-[16svh] md:pt-0 md:items-end overflow-hidden"
       >
         {/* ── Layer 0: Background image — slowest parallax ── */}
         <motion.div
@@ -162,7 +162,7 @@ export default function Home() {
         {/* ── Layer 3: Hero text content — left-aligned editorial ── */}
         <motion.div
           style={{ opacity: heroOpacity, y: heroY }}
-          className="relative z-10 w-full max-w-7xl mx-auto px-6 sm:px-8 md:px-14 pb-24 md:pb-28"
+          className="relative z-10 w-full max-w-7xl mx-auto px-6 sm:px-8 md:px-14 pb-12 md:pb-28"
         >
           {/* Eyebrow */}
           <div className="hero-instant hero-instant-1 mb-8 flex items-center gap-4">
